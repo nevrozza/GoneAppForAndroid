@@ -195,7 +195,7 @@ fun Task(
 
                             Text(
                                 " New task...",
-                                modifier = Modifier.alpha(0.5f)
+                                modifier = Modifier.alpha(.5f)
                             )
                         }
                     }
@@ -213,16 +213,16 @@ fun Task(
                     Text(text = buildAnnotatedString {
                         withStyle(
                             style = SpanStyle(
-                                textDecoration = if (duration[0] == '0' || duration[0] == '-' || checked.value) TextDecoration.LineThrough else null,
+                                textDecoration = if (checked.value) TextDecoration.LineThrough else null,
                                 brush = SolidColor(MaterialTheme.colorScheme.onSurfaceVariant),
-                                alpha = if (duration[0] == '0' || duration[0] == '-' || checked.value) 0.5f else 1f
+                                alpha = if (checked.value) 0.5f else 1f
                             )
                         ) {
                             append(value.value.text)
                         }
                         withStyle(
                             style = SpanStyle(
-                                textDecoration = if (duration[0] == '0' || duration[0] == '-' || checked.value) TextDecoration.LineThrough else null,
+                                textDecoration = if (checked.value) TextDecoration.LineThrough else null,
                                 brush = SolidColor(MaterialTheme.colorScheme.onSurfaceVariant),
                                 alpha = 0.5f
                             )
