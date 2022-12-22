@@ -26,6 +26,7 @@ fun TasksScreen(
     tasksList: State<List<Task>>,
 ) {
     val lazyState = rememberLazyListState()
+    var firstDeploy by remember { mutableStateOf(true) }
     Column(modifier = Modifier.fillMaxSize()) {
 
         if (tasksList.value.isEmpty()) {
@@ -50,8 +51,12 @@ fun TasksScreen(
                     //crutch for animation when tap
                     var currentState = remember { mutableStateOf(MutableTransitionState(false)) }
                     currentState.value.targetState = true
+                    var tweenDur by remember {
+                        Log.e("gasdsadsa", "${!firstDeploy}")
+                        mutableStateOf(if(tasksList.value.last().id == item.id && !firstDeploy) 0 else 800)
+                    }
                     AnimatedVisibility(visibleState = currentState.value,
-                        enter = fadeIn(tween(800))) {
+                        enter = fadeIn(tween(tweenDur))) {
                         Task(
                             text = item.text,
                             id = item.id,
@@ -60,9 +65,10 @@ fun TasksScreen(
                             day = item.day,
                             checked = item.checked,
                             tasksViewModel = tasksViewModel, currentState = currentState)
+                        tweenDur = 800
                     }
-                    Log.e("sad", "${tasksList.value.last().id} ${item.id}")
                     if (tasksList.value.last().id == item.id) {
+                        firstDeploy = false
                         var currentState1 = remember { MutableTransitionState(false) }
                         currentState1.targetState = true
                         AnimatedVisibility(visibleState = currentState1,
