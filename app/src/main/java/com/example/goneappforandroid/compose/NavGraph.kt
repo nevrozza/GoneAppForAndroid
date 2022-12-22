@@ -1,6 +1,5 @@
 package com.example.goneappforandroid.compose
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
@@ -18,11 +17,12 @@ fun NavGraph(
     topBarTitle: MutableState<String>,
     tasksList: State<List<Task>>,
     tasksViewModel: TasksViewModel,
+    confettiGo: MutableState<Boolean>,
 ){
     NavHost(navController = navHostController, startDestination = CustomBottomAppBarItems.tasks.route) {
         composable(route = CustomBottomAppBarItems.tasks.route){
             topBarTitle.value = "Today"
-            TasksScreen(tasksList = tasksList, tasksViewModel = tasksViewModel)
+            TasksScreen(tasksList = tasksList, tasksViewModel = tasksViewModel, confettiGo = confettiGo)
         }
         composable(route = CustomBottomAppBarItems.settings.route){
             topBarTitle.value = "Settings"
