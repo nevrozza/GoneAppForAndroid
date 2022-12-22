@@ -32,7 +32,7 @@ fun CustomCheckBox(
             modifier = Modifier
                 .fillMaxSize()
                 .alpha(if (checked) 1f else .5f),
-            shape = AbsoluteRoundedCornerShape(20),
+            shape = AbsoluteRoundedCornerShape(40),
             border = BorderStroke(color = if(checked || editing) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.onSurfaceVariant, width = 1.dp),
             onClick = {
                 onCheckedChange()

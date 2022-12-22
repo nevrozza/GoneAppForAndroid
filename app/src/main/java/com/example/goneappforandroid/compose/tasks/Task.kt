@@ -38,6 +38,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.goneappforandroid.TasksViewModel
+import com.example.goneappforandroid.ui.theme.Typography
 import java.util.*
 
 
@@ -67,8 +68,8 @@ fun Task(
     var value = remember {
         mutableStateOf(
             TextFieldValue(
-                text ?: " ",
-                selection = TextRange((text ?: " ").length)
+                text ?: "",
+                selection = TextRange((text ?: "").length)
             )
         )
     }
@@ -84,8 +85,8 @@ fun Task(
 
         CustomCheckBox(
             modifier = Modifier
-                .padding(top = 13.dp, start = 10.dp, end = 10.dp)
-                .size(20.dp),
+                .padding(top = 13.dp, start = 15.dp, end = 15.dp)
+                .size(25.dp),
             checked = checked.value,
             editing = editing.value,
             onCheckedChange = {
@@ -149,8 +150,8 @@ fun Task(
                                             editing.value = false
                                             if(!doned){
                                                 value.value = TextFieldValue(
-                                                    text ?: " ",
-                                                    selection = TextRange((text ?: " ").length)
+                                                    text ?: "",
+                                                    selection = TextRange((text ?: "").length)
                                                 )
                                             }
                                             doned = false
@@ -160,7 +161,7 @@ fun Task(
                             value = value.value,
                             onValueChange = { value.value = it },
 
-                            textStyle = TextStyle(fontSize = 16.sp),
+                            textStyle = Typography.bodyLarge,
                             cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
                             keyboardOptions = KeyboardOptions(
                                 imeAction = if (value.value.text != " ".repeat(
@@ -191,10 +192,10 @@ fun Task(
                             )
                         )
 
-                        if (value.value.text == " ") {
+                        if (value.value.text == "") {
 
                             Text(
-                                " New task...",
+                                "New task...",
                                 modifier = Modifier.alpha(.5f)
                             )
                         }
