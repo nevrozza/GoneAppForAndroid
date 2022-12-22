@@ -1,6 +1,5 @@
 @file:OptIn(
-    ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class,
-    ExperimentalTextApi::class, ExperimentalFoundationApi::class
+    ExperimentalTextApi::class
 )
 
 package com.example.goneappforandroid.compose.tasks
@@ -14,7 +13,6 @@ import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicTextField
@@ -22,7 +20,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
@@ -38,7 +35,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.goneappforandroid.TasksViewModel
 import com.example.goneappforandroid.ui.theme.Typography
 import java.util.*
@@ -66,9 +62,9 @@ fun Task(
     val mLocal = LocalContext.current
     val focusManager = LocalFocusManager.current
     val focusRequester = remember { FocusRequester() }
-    val checked = remember { mutableStateOf(checked) }
+    val newChecked = remember { mutableStateOf(checked) }
     val editing = remember { mutableStateOf(false) }
-    var value = remember {
+    val value = remember {
         mutableStateOf(
             TextFieldValue(
                 text ?: "",
@@ -79,7 +75,7 @@ fun Task(
 
     var pressed by remember { mutableStateOf(false) }
     var doned by remember { mutableStateOf(false) }
-    var expanded = remember { mutableStateOf(false) }
+    val expanded = remember { mutableStateOf(false) }
     var offsetX by remember { mutableStateOf(0.dp) }
 
     val imm = mLocal.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -110,15 +106,15 @@ fun Task(
                     modifier = Modifier
                         .padding(top = 13.dp, start = 15.dp, end = 15.dp)
                         .size(25.dp),
-                    checked = checked.value,
+                    checked = newChecked.value,
                     editing = editing.value,
                     onCheckedChange = {
                         if (text != null && !editing.value) {
-                            checked.value = !checked.value
-                            tasksViewModel.checkTask(id, checked.value)
+                            newChecked.value = !newChecked.value
+                            tasksViewModel.checkTask(id, newChecked.value)
                             currentState = MutableTransitionState(false)
                         }
-                        if (checked.value) {
+                        if (newChecked.value) {
                             confettiGo.value = true
                         }
                     }
@@ -162,7 +158,7 @@ fun Task(
                 ) {
                     Column {
                         if (text == null || editing.value) {
-                            Box() {
+                            Box {
                                 BasicTextField(
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -234,16 +230,16 @@ fun Task(
                             Text(text = buildAnnotatedString {
                                 withStyle(
                                     style = SpanStyle(
-                                        textDecoration = if (checked.value) TextDecoration.LineThrough else null,
+                                        textDecoration = if (newChecked.value) TextDecoration.LineThrough else null,
                                         brush = SolidColor(MaterialTheme.colorScheme.onSurfaceVariant),
-                                        alpha = if (checked.value) 0.5f else 1f
+                                        alpha = if (newChecked.value) 0.5f else 1f
                                     )
                                 ) {
                                     append(value.value.text)
                                 }
                                 withStyle(
                                     style = SpanStyle(
-                                        textDecoration = if (checked.value) TextDecoration.LineThrough else null,
+                                        textDecoration = if (newChecked.value) TextDecoration.LineThrough else null,
                                         brush = SolidColor(MaterialTheme.colorScheme.onSurfaceVariant),
                                         alpha = 0.5f
                                     )
@@ -254,7 +250,7 @@ fun Task(
                         }
 
                         CustomDropDownMenu(
-                            checked = checked.value,
+                            checked = newChecked.value,
                             expanded = expanded,
                             delete = { tasksViewModel.deleteTask(id) },
                             edit = {
