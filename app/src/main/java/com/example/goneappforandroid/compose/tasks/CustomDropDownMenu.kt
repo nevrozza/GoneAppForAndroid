@@ -19,12 +19,16 @@ fun CustomDropDownMenu(
     expanded: MutableState<Boolean>,
     offsetX: Dp,
     delete: () -> Unit,
+    edit: () -> Unit,
+    checked: Boolean,
 ) {
     DropdownMenu(expanded = expanded.value, onDismissRequest = { expanded.value = false }, offset = DpOffset(offsetX-100.dp, 0.dp)) {
+    if(!checked) {
         DropdownMenuItem(
-            text = {Text("Edit")},
-            onClick = { /*TODO*/ },
-            leadingIcon = { Icon(Icons.Outlined.Edit, contentDescription = null)})
+            text = { Text("Edit") },
+            onClick = { edit() },
+            leadingIcon = { Icon(Icons.Outlined.Edit, contentDescription = null) })
+    }
         DropdownMenuItem(
             text = {Text("Delete", color = redInk)},
             onClick = {delete()},

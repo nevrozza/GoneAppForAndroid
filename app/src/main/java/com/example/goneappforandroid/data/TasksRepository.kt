@@ -7,7 +7,9 @@ interface TasksRepository {
 
     suspend fun insertTask(task: Task)
 
-    suspend fun updateTask(id: Int, checked: Boolean)
+    suspend fun checkTask(id: Int, checked: Boolean)
+
+    suspend fun textTask(id: Int, text: String)
 
     suspend fun deleteTask(id: Int)
 

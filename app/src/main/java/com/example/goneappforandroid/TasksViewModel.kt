@@ -15,9 +15,14 @@ class TasksViewModel(private val repository: TasksRepository): ViewModel() {
         }
     }
 
-    fun updateTask(id: Int, checked: Boolean){
+    fun checkTask(id: Int, checked: Boolean){
         viewModelScope.launch(Dispatchers.IO) {
-            repository.updateTask(id, checked)
+            repository.checkTask(id, checked)
+        }
+    }
+    fun textTask(id: Int, text: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.textTask(id, text)
         }
     }
 

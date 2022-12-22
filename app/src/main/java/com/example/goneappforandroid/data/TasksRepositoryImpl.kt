@@ -8,8 +8,12 @@ class TasksRepositoryImpl(private val dao: TasksDAO): TasksRepository {
         dao.insertTask(task)
     }
 
-    override suspend fun updateTask(id: Int, checked: Boolean) {
+    override suspend fun checkTask(id: Int, checked: Boolean) {
         dao.checkTask(id, checked)
+    }
+
+    override suspend fun textTask(id: Int, text: String) {
+        dao.textTask(id, text)
     }
 
     override suspend fun deleteTask(id: Int) {

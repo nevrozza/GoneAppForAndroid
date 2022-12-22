@@ -1,14 +1,17 @@
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class,
-    ExperimentalTextApi::class, ExperimentalFoundationApi::class)
+@file:OptIn(
+    ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class,
+    ExperimentalTextApi::class, ExperimentalFoundationApi::class
+)
 
 package com.example.goneappforandroid.compose.tasks
 
+import android.content.Context
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.compose.animation.AnimatedVisibility
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
@@ -21,18 +24,22 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.focus.FocusManager
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.*
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.goneappforandroid.TasksViewModel
 import java.util.*
+
 
 //Date().minutes - minutes
 //Date().hours - hours
@@ -54,36 +61,67 @@ fun Task(
 ) {
     val mLocal = LocalContext.current
     val focusManager = LocalFocusManager.current
+    val focusRequester = remember { FocusRequester() }
     val checked = remember { mutableStateOf(checked) }
-    var value = remember { mutableStateOf(text ?: " ") }
+    val editing = remember { mutableStateOf(false) }
+    var value = remember {
+        mutableStateOf(
+            TextFieldValue(
+                text ?: " ",
+                selection = TextRange((text ?: " ").length)
+            )
+        )
+    }
+    val imm = mLocal.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
 
-    Row(modifier = Modifier
-        .fillMaxWidth()
-        .padding(vertical = 10.dp, horizontal = 10.dp)) {
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 10.dp, horizontal = 10.dp)
+    ) {
 
         CustomCheckBox(
             modifier = Modifier
                 .padding(top = 13.dp, start = 10.dp, end = 10.dp)
                 .size(20.dp),
             checked = checked.value,
+            editing = editing.value,
             onCheckedChange = {
-                if (text != null) {
+                if (text != null && !editing.value) {
                     checked.value = !checked.value
-                    tasksViewModel.updateTask(id, checked.value)
+                    tasksViewModel.checkTask(id, checked.value)
                     currentState.value = MutableTransitionState(false)
                 }
             }
         )
-        var pressed by remember { mutableStateOf(false) }
 
+
+        var pressed by remember { mutableStateOf(false) }
+        var doned by remember { mutableStateOf(false) }
         var expanded = remember { mutableStateOf(false) }
         var offsetX by remember { mutableStateOf(0.dp) }
+        LaunchedEffect(editing.value) {
+            if (editing.value) {
+                focusRequester.requestFocus()
+                expanded.value = false
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+            }
+        }
+        BackHandler(enabled = editing.value) {
+            focusManager.clearFocus()
+        }
 
         Box(modifier = Modifier
             .fillMaxWidth()
             .padding(top = 13.dp)
-            .scale(animateFloatAsState(targetValue = if (pressed) 0.99f else 1f, tween(150)).value)
+            .scale(
+                animateFloatAsState(
+                    targetValue = if (pressed) 0.99f else 1f,
+                    tween(150)
+                ).value
+            )
             .pointerInput(Unit) {
                 detectTapGestures(
                     onPress = {
@@ -94,40 +132,71 @@ fun Task(
                     onLongPress = {
                         offsetX = it.x.toDp()
                         expanded.value = true
-
                     }
                 )
             }
         ) {
             Column {
-                if (text == null) {
-
+                if (text == null || editing.value) {
                     Box() {
                         BasicTextField(
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .focusRequester(focusRequester = focusRequester)
+                                .onFocusChanged {
+                                    if (!expanded.value) {
+                                        if (!it.isFocused) {
+                                            editing.value = false
+                                            if(!doned){
+                                                value.value = TextFieldValue(
+                                                    text ?: " ",
+                                                    selection = TextRange((text ?: " ").length)
+                                                )
+                                            }
+                                            doned = false
+                                        }
+                                    }
+                                },
                             value = value.value,
                             onValueChange = { value.value = it },
+
                             textStyle = TextStyle(fontSize = 16.sp),
                             cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
-                            keyboardOptions = KeyboardOptions(imeAction = if (value.value.isNotEmpty()) ImeAction.Done else ImeAction.Send),
+                            keyboardOptions = KeyboardOptions(
+                                imeAction = if (value.value.text != " ".repeat(
+                                        value.value.text.length
+                                    )
+                                ) ImeAction.Done else ImeAction.Send
+                            ),
                             keyboardActions = KeyboardActions(
                                 onSend = {
-                                    Toast.makeText(mLocal,
+                                    Toast.makeText(
+                                        mLocal,
                                         "Cannot be empty",
-                                        Toast.LENGTH_SHORT).show()
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 },
                                 onDone = {
-                                    onDone(tasksViewModel = tasksViewModel,
-                                        value = value,
-                                        focusManager = focusManager)
+                                    doned = true
+                                    if (editing.value) {
+                                        tasksViewModel.textTask(id, value.value.text)
+                                    } else {
+                                        onDone(
+                                            tasksViewModel = tasksViewModel,
+                                            value = value,
+                                        )
+                                    }
+                                    focusManager.clearFocus()
                                 }
                             )
                         )
 
-                        if (value.value == " ") {
+                        if (value.value.text == " ") {
 
-                            Text(" New task...",
-                                modifier = Modifier.alpha(0.5f))
+                            Text(
+                                " New task...",
+                                modifier = Modifier.alpha(0.5f)
+                            )
                         }
                     }
 
@@ -142,27 +211,40 @@ fun Task(
                         duration = "$durationMinutes m"
                     }
                     Text(text = buildAnnotatedString {
-                        withStyle(style = SpanStyle(
-                            textDecoration = if (duration[0] == '0' || duration[0] == '-' || checked.value) TextDecoration.LineThrough else null,
-                            brush = SolidColor(MaterialTheme.colorScheme.onSurfaceVariant),
-                            alpha = if (duration[0] == '0' || duration[0] == '-' || checked.value) 0.5f else 1f
-                        )) {
-                            append(value.value)
+                        withStyle(
+                            style = SpanStyle(
+                                textDecoration = if (duration[0] == '0' || duration[0] == '-' || checked.value) TextDecoration.LineThrough else null,
+                                brush = SolidColor(MaterialTheme.colorScheme.onSurfaceVariant),
+                                alpha = if (duration[0] == '0' || duration[0] == '-' || checked.value) 0.5f else 1f
+                            )
+                        ) {
+                            append(value.value.text)
                         }
-                        withStyle(style = SpanStyle(
-                            textDecoration = if (duration[0] == '0' || duration[0] == '-' || checked.value) TextDecoration.LineThrough else null,
-                            brush = SolidColor(MaterialTheme.colorScheme.onSurfaceVariant),
-                            alpha = 0.5f)) {
+                        withStyle(
+                            style = SpanStyle(
+                                textDecoration = if (duration[0] == '0' || duration[0] == '-' || checked.value) TextDecoration.LineThrough else null,
+                                brush = SolidColor(MaterialTheme.colorScheme.onSurfaceVariant),
+                                alpha = 0.5f
+                            )
+                        ) {
                             append(" · $duration")
                         }
                     })
                 }
 
-                CustomDropDownMenu(expanded = expanded,
+                CustomDropDownMenu(
+                    checked = checked.value,
+                    expanded = expanded,
                     delete = { tasksViewModel.deleteTask(id) },
-                    offsetX = offsetX)
+                    edit = {
+                        editing.value = true
+
+                    },
+                    offsetX = offsetX
+                )
 
             }
+
 
         }
     }
@@ -171,17 +253,16 @@ fun Task(
 }
 
 private fun onDone(
-    value: MutableState<String>,
-    focusManager: FocusManager,
+    value: MutableState<TextFieldValue>,
     tasksViewModel: TasksViewModel,
 ) {
     val newDay =
         ((Date().year - 1) * 365) + ((Date().month - 1) * 30) + (Date().date + 1)
-    tasksViewModel.insertTask(value.value,
+    tasksViewModel.insertTask(
+        value.value.text,
         minute = Date().minutes,
         hour = Date().hours,
         day = newDay,
-        checked = false)
-    value.value = " "
-    focusManager.clearFocus()
+        checked = false
+    )
 }

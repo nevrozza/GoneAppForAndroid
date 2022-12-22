@@ -22,11 +22,7 @@ import com.example.goneappforandroid.TasksViewModelFactory
 import com.example.goneappforandroid.compose.bottomappbar.CustomBottomAppBar
 import com.example.goneappforandroid.ui.theme.GoneAppForAndroidTheme
 
-//Date().minutes - minutes
-//Date().hours - hours
-//Date().date - day
-//Date().month - month
-//Date().year - year
+
 
 
 @Composable
