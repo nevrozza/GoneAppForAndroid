@@ -99,7 +99,7 @@ fun Task(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 20.dp, horizontal = 10.dp)
+                    .padding(top = 20.dp, bottom = 20.dp, start = 10.dp, end = 25.dp)
             ) {
 
                 CustomCheckBox(
