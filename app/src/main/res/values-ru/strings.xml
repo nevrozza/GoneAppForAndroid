@@ -14,7 +14,7 @@
     <string name="notifications">Уведомления</string>
     <string name="invite">Пригласить друзей</string>
     <string name="weekly_overview">Итоги Недели</string>
-    <string name="tutorial_1">Добро пожаловать в Gone, быстрый и простой список дел</string>
+    <string name="tutorial_1">Добро пожаловать в Gone, быстрый список дел</string>
     <string name="tutorial_2">Все задачи исчезнут в течение 24 часов после их добавления</string>
     <string name="tutorial_3">Выполняйте свои задачи каждый день прежде, чем они исчезнут</string>
 </resources>
