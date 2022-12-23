@@ -25,7 +25,7 @@ import com.example.goneappforandroid.ui.theme.GoneAppForAndroidTheme
 
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun BaseScreen(factory: TasksViewModelFactory,
                tasksViewModel: TasksViewModel = viewModel(factory = factory)

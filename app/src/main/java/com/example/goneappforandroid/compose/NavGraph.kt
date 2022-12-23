@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.goneappforandroid.TasksViewModel
 import com.example.goneappforandroid.compose.bottomappbar.CustomBottomAppBarItems
+import com.example.goneappforandroid.compose.settings.SettingsScreen
 import com.example.goneappforandroid.compose.tasks.TasksScreen
 import com.example.goneappforandroid.data.Task
 
@@ -26,6 +27,7 @@ fun NavGraph(
         }
         composable(route = CustomBottomAppBarItems.settings.route){
             topBarTitle.value = "Settings"
+            SettingsScreen(navHostController = navHostController)
         }
         composable(route = "overview"){
 

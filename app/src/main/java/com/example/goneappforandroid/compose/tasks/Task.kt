@@ -99,12 +99,12 @@ fun Task(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 10.dp, horizontal = 10.dp)
+                    .padding(vertical = 20.dp, horizontal = 10.dp)
             ) {
 
                 CustomCheckBox(
                     modifier = Modifier
-                        .padding(top = 13.dp, start = 15.dp, end = 15.dp)
+                        .padding(start = 15.dp, end = 15.dp)
                         .size(25.dp),
                     checked = newChecked.value,
                     editing = editing.value,
@@ -135,7 +135,6 @@ fun Task(
 
                 Box(modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 13.dp)
                     .scale(
                         animateFloatAsState(
                             targetValue = if (pressed) 0.99f else 1f,
