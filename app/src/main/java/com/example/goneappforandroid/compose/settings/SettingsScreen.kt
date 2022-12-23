@@ -5,6 +5,7 @@ import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Notifications
@@ -40,7 +41,7 @@ fun SettingsScreen(navHostController: NavHostController) {
         Column(modifier = Modifier.fillMaxSize()) {
             Box(contentAlignment = Alignment.Center, modifier = Modifier
                 .height(70.dp)
-                .clickable() { }) {
+                .clickable(indication = null, interactionSource = MutableInteractionSource()) { }) {
                 MenuItem(modifier = Modifier
                     .padding(start = 10.dp, end = 10.dp)
                     .fillMaxWidth(),
@@ -50,7 +51,7 @@ fun SettingsScreen(navHostController: NavHostController) {
             }
             Box(contentAlignment = Alignment.Center, modifier = Modifier
                 .height(70.dp)
-                .clickable() {isNotification.value = !isNotification.value }) {
+                .clickable(indication = null, interactionSource = MutableInteractionSource()) {isNotification.value = !isNotification.value }) {
             MenuItem(modifier = Modifier
                 .padding(start = 10.dp, end = 20.dp)
                 .fillMaxWidth(),
@@ -60,7 +61,7 @@ fun SettingsScreen(navHostController: NavHostController) {
             }
             Box(contentAlignment = Alignment.Center, modifier = Modifier
                 .height(70.dp)
-                .clickable() { }) {
+                .clickable(indication = null, interactionSource = MutableInteractionSource()) { }) {
                 MenuItem(modifier = Modifier
                     .padding(start = 10.dp)
                     .fillMaxWidth(),
