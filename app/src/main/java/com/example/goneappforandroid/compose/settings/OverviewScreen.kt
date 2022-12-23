@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalTextApi::class, ExperimentalComposeUiApi::class)
+@file:OptIn(ExperimentalComposeUiApi::class)
 
 package com.example.goneappforandroid.compose.settings
 
@@ -21,7 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.ExperimentalTextApi
 import com.example.goneappforandroid.data.Task
 import com.example.goneappforandroid.ui.theme.redInk
 import com.example.goneappforandroid.R
