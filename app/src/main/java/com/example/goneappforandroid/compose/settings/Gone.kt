@@ -8,13 +8,13 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-val Gone: ImageVector
+val icGone: ImageVector
 get() {
     if (_gone != null) {
         return _gone!!
     }
     _gone = ImageVector.Builder(
-        name = "Gone",
+        name = "icGone",
         defaultWidth = 110.87.dp,
         defaultHeight = 111.24.dp,
         viewportWidth = 110.87F,
@@ -52,5 +52,5 @@ private var _gone: ImageVector? = null
 @Composable
 @Suppress("UnusedPrivateMember")
 private fun IconGonePreview() {
-    Image(imageVector = Gone, contentDescription = null)
+    Image(imageVector = icGone, contentDescription = null)
 }

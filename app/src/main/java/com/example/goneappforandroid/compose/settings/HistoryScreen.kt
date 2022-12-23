@@ -41,7 +41,7 @@ fun HistoryScreen(
     AnimatedVisibility(visibleState = currentState, enter = fadeIn(tween(800))) {
         if(tasksList.value.isEmpty()){
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
-                Icon(imageVector = Gone, contentDescription = null, modifier = Modifier
+                Icon(imageVector = icGone, contentDescription = null, modifier = Modifier
                     .size(300.dp)
                     .alpha(.1f), tint = Color.Gray)
                 Text(stringResource(id = R.string.here_is_empty), style = Typography.titleLarge)

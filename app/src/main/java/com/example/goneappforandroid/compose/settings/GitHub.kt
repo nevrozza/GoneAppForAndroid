@@ -7,13 +7,13 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-val GitHub: ImageVector
+val icGitHub: ImageVector
     get() {
         if (_gitHub != null) {
             return _gitHub!!
         }
         _gitHub = ImageVector.Builder(
-            name = "GitHub",
+            name = "icGitHub",
             defaultWidth = 1024.0.dp,
             defaultHeight = 1024.0.dp,
             viewportWidth = 1024.0F,
@@ -58,5 +58,5 @@ private var _gitHub: ImageVector? = null
 @Composable
 @Suppress("UnusedPrivateMember")
 private fun IconGitHubPreview() {
-    Image(imageVector = GitHub, contentDescription = null)
+    Image(imageVector = icGitHub, contentDescription = null)
 }

@@ -74,7 +74,7 @@ fun SettingsScreen(navHostController: NavHostController) {
                 })
 
             MenuItem(
-                icon = GitHub,
+                icon = icGitHub,
                 text = stringResource(id = R.string.github),
                 onClick = {})
 
