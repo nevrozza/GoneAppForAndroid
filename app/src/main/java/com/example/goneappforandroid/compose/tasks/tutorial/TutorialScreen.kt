@@ -17,6 +17,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.goneappforandroid.TasksViewModel
@@ -24,6 +25,7 @@ import com.example.goneappforandroid.compose.bottomappbar.CustomBottomAppBarItem
 import com.example.goneappforandroid.compose.prefFirstStart
 import com.example.goneappforandroid.compose.settings.MenuItem
 import com.example.goneappforandroid.compose.tasks.Task
+import com.example.goneappforandroid.R
 
 @Composable
 fun TutorialScreen(
@@ -32,7 +34,7 @@ fun TutorialScreen(
     navHostController: NavHostController,
     local: Context
 ) {
-    val text = listOf("1", "2", "3")
+    val text = listOf(stringResource(id = R.string.tutorial_1), stringResource(id = R.string.tutorial_2), stringResource(id = R.string.tutorial_3))
     Column(modifier = Modifier.fillMaxSize()) {
         for (i in text.indices) {
             Task(
@@ -53,7 +55,7 @@ fun TutorialScreen(
                 .height(70.dp)
                 .clickable(indication = null, interactionSource = MutableInteractionSource()) { }) {
                 MenuItem(icon = Icons.Rounded.ArrowForwardIos,
-                    text = "Get Started",
+                    text = stringResource(id = R.string.get_started),
                     size = 25.dp,
                     textColor = MaterialTheme.colorScheme.primary,
                     iconColor = MaterialTheme.colorScheme.primary,

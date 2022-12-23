@@ -28,9 +28,11 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.goneappforandroid.R
 import com.example.goneappforandroid.ui.theme.Typography
 
 @Composable
@@ -45,7 +47,7 @@ fun SettingsScreen(navHostController: NavHostController) {
         Column(modifier = Modifier.fillMaxSize()) {
             MenuItem(
                 icon = Icons.Rounded.TaskAlt,
-                text = "Weekly Overview",
+                text = stringResource(id = R.string.weekly_overview),
                 icon2 = Icons.Rounded.ArrowForwardIos,
                 onClick = {
                     navHostController.navigate("overview")
@@ -54,7 +56,7 @@ fun SettingsScreen(navHostController: NavHostController) {
 
             MenuItem(endPadding = 20.dp,
                 icon = Icons.Outlined.Notifications,
-                text = "Notifications",
+                text = stringResource(id = R.string.notifications),
                 isNotification = isNotification,
                 onClick = {
                     isNotification.value = !isNotification.value
@@ -64,7 +66,7 @@ fun SettingsScreen(navHostController: NavHostController) {
 
             MenuItem(
                 icon = Icons.Outlined.PersonAdd,
-                text = "Invite Friends",
+                text = stringResource(id = R.string.invite),
                 rotation = 180f,
                 onClick = {})
 

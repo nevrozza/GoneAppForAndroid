@@ -6,6 +6,7 @@ import androidx.preference.PreferenceManager
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -16,6 +17,7 @@ import com.example.goneappforandroid.compose.settings.SettingsScreen
 import com.example.goneappforandroid.compose.tasks.TasksScreen
 import com.example.goneappforandroid.compose.tasks.tutorial.TutorialScreen
 import com.example.goneappforandroid.data.Task
+import com.example.goneappforandroid.R
 
 @Composable
 fun NavGraph(
@@ -31,16 +33,16 @@ fun NavGraph(
         composable(route = CustomBottomAppBarItems.Tasks.route){
             val isFirstStart = prefFirstStart(local, isLoad = true)
             if(isFirstStart){
-                topBarTitle.value = "Gone"
+                topBarTitle.value = stringResource(id = R.string.title_tutorial)
                 TutorialScreen(tasksViewModel = tasksViewModel, confettiGo = confettiGo, navHostController = navHostController, local = local)
             } else {
-                topBarTitle.value = "Today"
+                topBarTitle.value = stringResource(id = R.string.title_today)
                 TasksScreen(tasksList = tasksList, tasksViewModel = tasksViewModel, confettiGo = confettiGo, lazyState = lazyState)
             }
 
         }
         composable(route = CustomBottomAppBarItems.Settings.route){
-            topBarTitle.value = "Settings"
+            topBarTitle.value = stringResource(id = R.string.title_settings)
             SettingsScreen(navHostController = navHostController)
         }
         composable(route = "overview"){

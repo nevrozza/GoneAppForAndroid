@@ -31,11 +31,13 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.*
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import com.example.goneappforandroid.R
 import com.example.goneappforandroid.TasksViewModel
 import com.example.goneappforandroid.ui.theme.Typography
 import kotlinx.coroutines.delay
@@ -83,9 +85,9 @@ fun Task(
     val hours = hour + durationDay * 24
     val durationHours = hours - cal.get(Calendar.HOUR_OF_DAY)
     val durationMinutes = minute - cal.get(Calendar.MINUTE)
-    var duration = "$durationHours h"
+    var duration = "$durationHours ${stringResource(id = R.string.hours)}"
     if (durationHours <= 0) {
-        duration = "$durationMinutes m"
+        duration = "$durationMinutes ${stringResource(id = R.string.minutes)}"
     }
     if (duration.subSequence(0, duration.length - 2).toString().toLong() > 0 || text == null) {
         AnimatedVisibility(visibleState = currentState,
@@ -154,6 +156,7 @@ fun Task(
                     Column {
                         if (text == null || editing.value) {
                             Box {
+                                val toast = stringResource(id = R.string.no_empty)
                                 BasicTextField(
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -185,10 +188,11 @@ fun Task(
                                         ) ImeAction.Done else ImeAction.Send
                                     ),
                                     keyboardActions = KeyboardActions(
+
                                         onSend = {
                                             Toast.makeText(
                                                 mLocal,
-                                                "Cannot be empty",
+                                                toast,
                                                 Toast.LENGTH_SHORT
                                             ).show()
                                         },
@@ -215,7 +219,7 @@ fun Task(
                                 if (value.value.text == "") {
 
                                     Text(
-                                        "New task...",
+                                        stringResource(id = R.string.new_Task),
                                         modifier = Modifier.alpha(.5f)
                                     )
                                 }

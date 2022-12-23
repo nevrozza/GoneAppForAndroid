@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Gone</string>
+    <string name="title_tutorial">Gone</string>
+    <string name="title_today">Сегодня</string>
+    <string name="title_settings">Настройки</string>
+    <string name="hours">ч</string>
+    <string name="minutes">м</string>
+    <string name="no_empty">Не может быть пустым</string>
+    <string name="new_Task">Новая задача…</string>
+    <string name="edit">Редактировать</string>
+    <string name="delete">Удалить</string>
+    <string name="get_started">Начать Использовать</string>
+    <string name="notifications">Уведомления</string>
+    <string name="invite">Пригласить друзей</string>
+    <string name="weekly_overview">Итоги Недели</string>
+    <string name="tutorial_1">Добро пожаловать в Gone, быстрый и простой список дел</string>
+    <string name="tutorial_2">Все задачи исчезнут в течение 24 часов после их добавления</string>
+    <string name="tutorial_3">Выполняйте свои задачи каждый день прежде, чем они исчезнут</string>
+</resources>

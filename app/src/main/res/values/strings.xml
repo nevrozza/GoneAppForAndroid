@@ -1,3 +1,19 @@
 <resources>
-    <string name="app_name">GoneAppForAndroid</string>
+    <string name="app_name">Gone</string>
+    <string name="title_tutorial">Gone</string>
+    <string name="title_today">Today</string>
+    <string name="title_settings">Settings</string>
+    <string name="hours">h</string>
+    <string name="minutes">m</string>
+    <string name="no_empty">Cannot be empty</string>
+    <string name="new_Task">New Task…</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="tutorial_1">Welcome to Gone, the ephemeral to-do list</string>
+    <string name="tutorial_2">All tasks will disappear within 24 hours of adding them</string>
+    <string name="tutorial_3">Complete your tasks each day before they go away</string>
+    <string name="get_started">Get Started</string>
+    <string name="weekly_overview">Weekly Overview</string>
+    <string name="notifications">Notifications</string>
+    <string name="invite">Invite Friends</string>
 </resources>
