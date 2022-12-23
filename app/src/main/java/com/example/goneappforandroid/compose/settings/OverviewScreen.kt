@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.goneappforandroid.data.Task
 import com.example.goneappforandroid.ui.theme.redInk
@@ -85,23 +86,27 @@ fun OverViewScreen(
                     tasksList.value.size,
                     tasksList.value.size),
                 textAdd = "$expiredCount ${stringResource(R.string.tasks_expired)}",
-                onClick = {navHostController.navigate("history")}
+                icon2 = Icons.Rounded.ArrowForwardIos,
+                onClick = {navHostController.navigate("history")}, size2 = 20.dp
             )
 
             MenuItem(icon = Icons.Rounded.TaskAlt,
-                iconColor = MaterialTheme.colorScheme.primary,
-                iconAlpha = 1f,
                 text = "$completed ${stringResource(id = R.string.tasks_completed) }",
-                textAdd = "${(completed/(tasksList.value.size).toFloat()*100).toInt()}%", onPressAnimation = false)
+                textAdd = "${(completed/(tasksList.value.size).toFloat()*100).toInt()}%",
+                iconColor = MaterialTheme.colorScheme.primary,
+                onPressAnimation = false, iconAlpha = 1f)
 
             MenuItem(icon = Icons.Rounded.Schedule,
-                iconAlpha = 1f,
                 text = "${tasksList.value.size - (completed+incomplete)} ${stringResource(id = R.string.tasks_idle) }",
-                textAdd = "${((tasksList.value.size - (completed+incomplete))/(tasksList.value.size).toFloat()*100).toInt()}%", onPressAnimation = false)
+                textAdd = "${((tasksList.value.size - (completed+incomplete))/(tasksList.value.size).toFloat()*100).toInt()}%",
+                onPressAnimation = false, iconAlpha = 1f)
 
-            MenuItem(icon = Icons.Outlined.Cancel, iconColor = redInk, iconAlpha = 1f,
+            MenuItem(icon = Icons.Outlined.Cancel,
                 text = "$incomplete ${stringResource(id = R.string.tasks_incomplete) }",
-                textAdd = "${(incomplete/(tasksList.value.size).toFloat()*100).toInt()}%", onPressAnimation = false)
+                textAdd = "${(incomplete/(tasksList.value.size).toFloat()*100).toInt()}%",
+                iconColor = redInk,
+                onPressAnimation = false,
+                iconAlpha = 1f)
         }
     }
 }

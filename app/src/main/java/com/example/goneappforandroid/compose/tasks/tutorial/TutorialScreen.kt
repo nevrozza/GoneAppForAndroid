@@ -55,13 +55,14 @@ fun TutorialScreen(
                 .clickable(indication = null, interactionSource = MutableInteractionSource()) { }) {
                 MenuItem(icon = Icons.Rounded.ArrowForwardIos,
                     text = stringResource(id = R.string.get_started),
-                    size = 25.dp,
                     textColor = MaterialTheme.colorScheme.primary,
                     iconColor = MaterialTheme.colorScheme.primary,
+                    size = 25.dp,
                     onClick = {
                         prefFirstStart(local)
                         navHostController.navigate(CustomBottomAppBarItems.Tasks.route)
-                    })
+                    },
+                    size2 = 20.dp)
             }
         }
     }

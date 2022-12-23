@@ -12,7 +12,8 @@
     <string name="delete">Удалить</string>
     <string name="get_started">Начать Использовать</string>
     <string name="notifications">Уведомления</string>
-    <string name="invite">Пригласить друзей</string>
+    <string name="share">Поделиться Приложением</string>
+    <string name="github">Код проекта</string>
     <string name="weekly_overview">Итоги Недели</string>
     <string name="tutorial_1">Добро пожаловать в Gone, быстрый список дел</string>
     <string name="tutorial_2">Задача просрочится через 24 часа после её добавления</string>

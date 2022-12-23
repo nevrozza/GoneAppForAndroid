@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.rounded.ArrowForwardIos
+import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material.icons.rounded.TaskAlt
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -57,6 +58,7 @@ fun SettingsScreen(navHostController: NavHostController) {
                 icon = Icons.Rounded.TaskAlt,
                 text = stringResource(id = R.string.weekly_overview),
                 icon2 = Icons.Rounded.ArrowForwardIos,
+                size2 = 25.dp,
                 onClick = {
                     navHostController.navigate("overview")
                 })
@@ -71,10 +73,14 @@ fun SettingsScreen(navHostController: NavHostController) {
                     prefNotification(local, isNotification.value)
                 })
 
+            MenuItem(
+                icon = GitHub,
+                text = stringResource(id = R.string.github),
+                onClick = {})
 
             MenuItem(
-                icon = Icons.GitHub,
-                text = stringResource(id = R.string.invite),
+                icon = Icons.Rounded.Share,
+                text = stringResource(id = R.string.share),
                 onClick = {})
 
         }
@@ -112,7 +118,8 @@ fun MenuItem(
     onClick: () -> Unit = {},
     onPressAnimation: Boolean = true,
     iconAlpha: Float = .5f,
-    isHistory: Boolean = false
+    isHistory: Boolean = false,
+    size2: Dp = 30.dp
 ) {
     var pressed by remember { mutableStateOf(false) }
     Row(verticalAlignment = Alignment.CenterVertically,
@@ -149,7 +156,7 @@ fun MenuItem(
         Text(buildAnnotatedString {
             withStyle(style = if(isHistory) SpanStyle(
                 textDecoration = TextDecoration.LineThrough,
-                brush = SolidColor(MaterialTheme.colorScheme.onSurfaceVariant),
+                brush = SolidColor(textColor),
                 alpha = .5f
             ) else SpanStyle(color = textColor)) {
                 append(text)
@@ -174,7 +181,7 @@ fun MenuItem(
                             onClick()
                         })
                 } else if (icon2 != null) {
-                    CustomIcon(imageVector = icon2, iconColor = iconColor, size = size)
+                    CustomIcon(imageVector = icon2, iconColor = iconColor, size = size2)
                 }
             }
         }

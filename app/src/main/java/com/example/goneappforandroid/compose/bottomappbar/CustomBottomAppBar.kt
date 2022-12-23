@@ -12,11 +12,12 @@ fun CustomBottomAppBar(navHostController: NavHostController){
     val objects = listOf(CustomBottomAppBarItems.Tasks, CustomBottomAppBarItems.Settings)
     val navBackStackEntry by navHostController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
+    val routes = listOf("overview", "history")
     NavigationBar {
         objects.forEach{mObject ->
             val selected = currentDestination?.hierarchy?.any { it.route == mObject.route } == true
             NavigationBarItem(
-                icon = { Icon(imageVector = mObject.image, contentDescription = null, tint = if(selected || (navHostController.currentDestination?.route == "overview" && mObject.route == CustomBottomAppBarItems.Settings.route)) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant)},
+                icon = { Icon(imageVector = mObject.image, contentDescription = null, tint = if(selected || (navHostController.currentDestination?.route in routes && mObject.route == CustomBottomAppBarItems.Settings.route) ) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant)},
                 selected = false,
                 onClick = {
                     if(!selected){

@@ -1,14 +1,13 @@
 package com.example.goneappforandroid.compose.settings
 
 import androidx.compose.foundation.Image
-import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.materialPath
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-val Icons.GitHub: ImageVector
+val GitHub: ImageVector
     get() {
         if (_gitHub != null) {
             return _gitHub!!
@@ -59,5 +58,5 @@ private var _gitHub: ImageVector? = null
 @Composable
 @Suppress("UnusedPrivateMember")
 private fun IconGitHubPreview() {
-    Image(imageVector = Icons.GitHub, contentDescription = null)
+    Image(imageVector = GitHub, contentDescription = null)
 }

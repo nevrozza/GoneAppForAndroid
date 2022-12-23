@@ -15,7 +15,8 @@
     <string name="get_started">Get Started</string>
     <string name="weekly_overview">Weekly Overview</string>
     <string name="notifications">Notifications</string>
-    <string name="invite">Invite Friends</string>
+    <string name="share">Share App</string>
+    <string name="github">Project code</string>
     <string name="title_overview">Overview</string>>
     <string name="title_history">History</string>>
     <string name="here_is_empty">It\'s empty here</string>>
