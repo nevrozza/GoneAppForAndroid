@@ -80,8 +80,8 @@ fun Task(
     var offsetX by remember { mutableStateOf(0.dp) }
 
     val keyboard = LocalSoftwareKeyboardController.current
-    var currentState = remember { MutableTransitionState(false) }
-    currentState.targetState = true
+    val currentState = remember { mutableStateOf( MutableTransitionState(false) )}
+    currentState.value.targetState = true
 
 
     val weekTime: Int
@@ -92,26 +92,15 @@ fun Task(
         weekTime =
             ((((cal.value.get(Calendar.YEAR) - 1901) * 365) + ((cal.value.get(Calendar.MONTH) - 1) * 30) + cal.value.get(
                 Calendar.DAY_OF_MONTH)) - day).toInt()
-        if(weekTime >= 8){
+        if(weekTime >= 7){
             tasksViewModel.deleteTask(id = id)
         }
     } else {
-        val durationDay =
-            day - (((cal.value.get(Calendar.YEAR) - 1901) * 365) + ((cal.value.get(Calendar.MONTH) - 1) * 30) + cal.value.get(
-                Calendar.DAY_OF_MONTH))
-        val hours = hour + durationDay * 24
-        val durationHours = hours - cal.value.get(Calendar.HOUR_OF_DAY)
-        val durationMinutes = minute - cal.value.get(Calendar.MINUTE)
 
-        val minutesText = stringResource(id = R.string.minutes)
-        val hoursText = stringResource(id = R.string.hours)
 
-        var duration = "$durationHours $hoursText"
-        if (durationHours == 0.toLong()) {
-            duration = "$durationMinutes $minutesText"
-        }
+        val duration = durationReturn(day = day, minute = minute, hour = hour, cal = cal)
         if (duration.subSequence(0, duration.length - 2).toString().toLong() > 0 || text == null) {
-            AnimatedVisibility(visibleState = currentState,
+            AnimatedVisibility(visibleState = currentState.value,
                 enter = fadeIn(tween(tweenDur.value))) {
                 Row(
                     modifier = Modifier
@@ -129,7 +118,7 @@ fun Task(
                             if (text != null && !editing.value) {
                                 newChecked.value = !newChecked.value
                                 tasksViewModel.checkTask(id, newChecked.value)
-                                currentState = MutableTransitionState(false)
+                                currentState.value = MutableTransitionState(false)
                             }
                             if (newChecked.value) {
                                 confettiGo.value = true
@@ -189,8 +178,10 @@ fun Task(
                                                         if (!doned) {
                                                             value.value = TextFieldValue(
                                                                 text ?: "",
-                                                                selection = TextRange((text
-                                                                    ?: "").length)
+                                                                selection = TextRange(
+                                                                    (text
+                                                                        ?: "").length
+                                                                )
                                                             )
                                                         }
                                                         doned = false
@@ -307,4 +298,21 @@ fun Task(
             }
         }
     }
+}
+
+
+
+@Composable
+fun durationReturn(day: Long, minute: Int, hour: Int, cal: MutableState<Calendar>): String{
+    val durationDay =
+        day - (((cal.value.get(Calendar.YEAR) - 1901) * 365) + ((cal.value.get(Calendar.MONTH) - 1) * 30) + cal.value.get(
+            Calendar.DAY_OF_MONTH))
+    val hours = hour + durationDay * 24
+    val durationHours = hours - cal.value.get(Calendar.HOUR_OF_DAY)
+    val durationMinutes = minute - cal.value.get(Calendar.MINUTE)
+
+    val minutesText = stringResource(id = R.string.minutes)
+    val hoursText = stringResource(id = R.string.hours)
+    return if (durationHours == 0.toLong()) "$durationMinutes $minutesText"
+    else "$durationHours $hoursText"
 }

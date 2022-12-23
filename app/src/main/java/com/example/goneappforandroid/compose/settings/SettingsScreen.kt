@@ -36,6 +36,7 @@ import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -110,7 +111,8 @@ fun MenuItem(
     size: Dp = 30.dp,
     onClick: () -> Unit = {},
     onPressAnimation: Boolean = true,
-    iconAlpha: Float = .5f
+    iconAlpha: Float = .5f,
+    isHistory: Boolean = false
 ) {
     var pressed by remember { mutableStateOf(false) }
     Row(verticalAlignment = Alignment.CenterVertically,
@@ -145,7 +147,11 @@ fun MenuItem(
         )
 
         Text(buildAnnotatedString {
-            withStyle(style = SpanStyle(color = textColor)) {
+            withStyle(style = if(isHistory) SpanStyle(
+                textDecoration = TextDecoration.LineThrough,
+                brush = SolidColor(MaterialTheme.colorScheme.onSurfaceVariant),
+                alpha = .5f
+            ) else SpanStyle(color = textColor)) {
                 append(text)
             }
             withStyle(style = SpanStyle(

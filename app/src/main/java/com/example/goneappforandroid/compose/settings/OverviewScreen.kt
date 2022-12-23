@@ -21,13 +21,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavHostController
 import com.example.goneappforandroid.data.Task
 import com.example.goneappforandroid.ui.theme.redInk
 import com.example.goneappforandroid.R
+import com.example.goneappforandroid.compose.tasks.durationReturn
 import java.util.*
 
 @Composable
-fun OverViewScreen(tasksList: State<List<Task>>, cal: MutableState<Calendar>) {
+fun OverViewScreen(
+    tasksList: State<List<Task>>,
+    cal: MutableState<Calendar>,
+    navHostController: NavHostController
+) {
     val currentState = remember { MutableTransitionState(false) }
     currentState.targetState = true
 
@@ -53,17 +59,17 @@ fun OverViewScreen(tasksList: State<List<Task>>, cal: MutableState<Calendar>) {
     var expiredCount = 0
     var completed = 0
     var incomplete = 0
-    for (i in tasksList.value) {
-        val weekTime =
-            ((((cal.value.get(Calendar.YEAR) - 1901) * 365) + ((cal.value.get(Calendar.MONTH) - 1) * 30) + cal.value.get(
-                Calendar.DAY_OF_MONTH)) - i.day).toInt()
-        if(weekTime >= 0 && ((i.hour < cal.value.get(Calendar.HOUR_OF_DAY)) || (i.minute <= cal.value.get(Calendar.MINUTE) && i.hour == 0))){
+    for (item in tasksList.value) {
+
+
+        val duration = durationReturn(day = item.day, minute = item.minute, hour = item.hour, cal = cal)
+        if(duration.subSequence(0, duration.length - 2).toString().toLong() < 0){
             expiredCount++
-            if(!i.checked) {
+            if(!item.checked) {
                 incomplete++
             }
         }
-        if(i.checked){
+        if(item.checked){
             completed++
         }
     }
@@ -78,7 +84,9 @@ fun OverViewScreen(tasksList: State<List<Task>>, cal: MutableState<Calendar>) {
                 text = pluralStringResource(R.plurals.tasks,
                     tasksList.value.size,
                     tasksList.value.size),
-                textAdd = "$expiredCount ${stringResource(R.string.tasks_expired)}", onPressAnimation = false)
+                textAdd = "$expiredCount ${stringResource(R.string.tasks_expired)}",
+                onClick = {navHostController.navigate("history")}
+            )
 
             MenuItem(icon = Icons.Rounded.TaskAlt,
                 iconColor = MaterialTheme.colorScheme.primary,

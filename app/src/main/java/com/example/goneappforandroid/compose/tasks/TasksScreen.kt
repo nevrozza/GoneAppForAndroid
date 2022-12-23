@@ -16,8 +16,6 @@ import androidx.compose.ui.unit.dp
 import com.airbnb.lottie.compose.*
 import com.example.goneappforandroid.TasksViewModel
 import com.example.goneappforandroid.data.Task
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import java.util.*
 
 @SuppressLint("CoroutineCreationDuringComposition")
@@ -32,15 +30,6 @@ fun TasksScreen(
 ) {
 
     var firstDeploy by remember { mutableStateOf(true) }
-    val coroutine = rememberCoroutineScope()
-
-
-    coroutine.launch {
-        while (true) {
-            delay(5000)
-            cal.value = Calendar.getInstance()
-        }
-    }
     Column(modifier = Modifier.fillMaxSize()) {
 
         if (tasksList.value.isEmpty()) {

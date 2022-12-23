@@ -42,8 +42,6 @@ fun TutorialScreen(
                 text = text[i],
                 id = i,
                 tasksViewModel = tasksViewModel,
-                minute = 0,
-                hour = 0,
                 day = 999999999999999999,
                 checked = false,
                 confettiGo = confettiGo, cal = remember{ mutableStateOf(Calendar.getInstance()) })

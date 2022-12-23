@@ -18,6 +18,8 @@
     <string name="tutorial_2">Задача просрочится через 24 часа после её добавления</string>
     <string name="tutorial_3">Выполняйте свои задачи каждый день прежде, чем они просрочатся</string>
     <string name="title_overview">Итоги</string>
+    <string name="title_history">История</string>>
+    <string name="here_is_empty">Здесь пусто</string>>
 
     <string name="month_0">Января</string>
     <string name="month_1">Февраля</string>

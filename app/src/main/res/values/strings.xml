@@ -17,6 +17,8 @@
     <string name="notifications">Notifications</string>
     <string name="invite">Invite Friends</string>
     <string name="title_overview">Overview</string>>
+    <string name="title_history">History</string>>
+    <string name="here_is_empty">It\'s empty here</string>>
 
     <string name="month_0">January</string>
     <string name="month_1">February</string>

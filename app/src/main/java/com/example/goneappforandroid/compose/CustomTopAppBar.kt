@@ -35,10 +35,10 @@ fun CustomTopAppBar(
                             fadeOut(animationSpec = tween(200))
                 }) { route ->
                     IconButton(onClick = {
-                        if(route == "overview"){
+                        if(route == "overview" || route == "history"){
                             navHostController.navigateUp()
                         }
-                    }, modifier = Modifier.padding(top = 2.dp).alpha(if(route == "overview") 1f else 0f)) {
+                    }, modifier = Modifier.padding(top = 2.dp).alpha(if(route == "overview" || route == "history") 1f else 0f)) {
                         Icon(imageVector = Icons.Rounded.ArrowBackIos, contentDescription = null)
                     }
                 }

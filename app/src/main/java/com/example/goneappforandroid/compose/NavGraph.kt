@@ -1,5 +1,6 @@
 package com.example.goneappforandroid.compose
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
@@ -12,14 +13,18 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.goneappforandroid.TasksViewModel
 import com.example.goneappforandroid.compose.bottomappbar.CustomBottomAppBarItems
-import com.example.goneappforandroid.compose.settings.OverViewScreen
 import com.example.goneappforandroid.compose.settings.SettingsScreen
 import com.example.goneappforandroid.compose.tasks.TasksScreen
 import com.example.goneappforandroid.compose.tasks.tutorial.TutorialScreen
 import com.example.goneappforandroid.data.Task
 import com.example.goneappforandroid.R
+import com.example.goneappforandroid.compose.settings.HistoryScreen
+import com.example.goneappforandroid.compose.settings.OverViewScreen
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.*
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun NavGraph(
     navHostController: NavHostController,
@@ -31,6 +36,16 @@ fun NavGraph(
 ){
     val local = LocalContext.current
     val cal = remember { mutableStateOf(Calendar.getInstance()) }
+
+    val coroutine = rememberCoroutineScope()
+
+
+    coroutine.launch {
+        while (true) {
+            delay(5000)
+            cal.value = Calendar.getInstance()
+        }
+    }
     NavHost(navController = navHostController, startDestination = CustomBottomAppBarItems.Tasks.route) {
         composable(route = CustomBottomAppBarItems.Tasks.route){
             val isFirstStart = prefFirstStart(local, isLoad = true)
@@ -49,7 +64,11 @@ fun NavGraph(
         }
         composable(route = "overview"){
             topBarTitle.value = stringResource(id = R.string.title_overview)
-            OverViewScreen(tasksList = tasksList, cal = cal)
+            OverViewScreen(tasksList = tasksList, cal = cal, navHostController = navHostController)
+        }
+        composable(route = "history"){
+            topBarTitle.value = stringResource(id = R.string.title_history)
+            HistoryScreen(tasksList = tasksList, cal = cal)
         }
     }
 }
