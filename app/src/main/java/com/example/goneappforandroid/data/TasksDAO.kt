@@ -21,6 +21,7 @@ interface TasksDAO {
     @Query("DELETE FROM task_table WHERE id = :id")
     suspend fun deleteTask(id: Int)
 
+
     @Query("SELECT * FROM task_table")
     fun getTasks(): Flow<List<Task>>
 }

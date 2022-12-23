@@ -5,6 +5,7 @@
 package com.example.goneappforandroid.compose.tasks
 
 import android.content.Context
+import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
@@ -53,7 +54,7 @@ fun Task(
     id: Int,
     minute: Int = 0,
     hour: Int = 0,
-    day: Int = 0,
+    day: Long = 0,
     checked: Boolean = false,
     tasksViewModel: TasksViewModel,
     confettiGo: MutableState<Boolean>,
@@ -92,8 +93,7 @@ fun Task(
     if (durationHours <= 0) {
         duration = "$durationMinutes m"
     }
-
-    if (duration.subSequence(0, duration.length - 2).toString().toInt() > 0 || text == null) {
+    if (duration.subSequence(0, duration.length - 2).toString().toLong() > 0 || text == null) {
         AnimatedVisibility(visibleState = currentState,
             enter = fadeIn(tween(tweenDur.value))) {
             Row(
@@ -207,7 +207,7 @@ fun Task(
                                                     value.value.text,
                                                     minute = Date().minutes,
                                                     hour = Date().hours,
-                                                    day = newDay,
+                                                    day = newDay.toLong(),
                                                     checked = false
                                                 )
                                             }
@@ -243,7 +243,9 @@ fun Task(
                                         alpha = 0.5f
                                     )
                                 ) {
-                                    append(" · $duration")
+                                    if(duration.subSequence(0, duration.length-2).toString().toLong() < 61) {
+                                        append(" · $duration")
+                                    }
                                 }
                             })
                         }
@@ -266,7 +268,7 @@ fun Task(
             }
         }
     }
-    if (duration.subSequence(0, duration.length-2).toString().toInt() < 0) {
+    if (duration.subSequence(0, duration.length-2).toString().toLong() < 0) {
 
     }
 

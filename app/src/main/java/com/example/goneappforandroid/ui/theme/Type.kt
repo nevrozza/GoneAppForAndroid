@@ -12,12 +12,18 @@ import com.example.goneappforandroid.R
 val Typography = Typography(
     bodyLarge = TextStyle(
         fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Bold,
+        fontSize = 19.sp,
+        lineHeight = 24.sp,
+        letterSpacing = 0.5.sp
+    ),
+    titleMedium = TextStyle(
+        fontFamily = FontFamily.Default,
         fontWeight = FontWeight.SemiBold,
         fontSize = 19.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
     ),
-
     titleLarge = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.ExtraBold,
@@ -27,7 +33,7 @@ val Typography = Typography(
     ),
     labelSmall = TextStyle(
         fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.SemiBold,
+        fontWeight = FontWeight.Bold,
         fontSize = 19.sp,
         lineHeight = 19.sp,
         letterSpacing = 0.5.sp
