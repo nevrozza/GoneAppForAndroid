@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTextApi::class)
+
 package com.example.goneappforandroid.compose.settings
 
 import android.content.Context
@@ -22,18 +24,24 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.goneappforandroid.R
-import com.example.goneappforandroid.ui.theme.Typography
 
 @Composable
 fun SettingsScreen(navHostController: NavHostController) {
@@ -96,6 +104,7 @@ fun MenuItem(
     endPadding: Dp = 10.dp,
     icon: ImageVector,
     text: String,
+    textAdd: String? = null,
     rotation: Float = 0f,
     isNotification: MutableState<Boolean>? = null,
     icon2: ImageVector? = null,
@@ -103,7 +112,8 @@ fun MenuItem(
     iconColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
     size: Dp = 30.dp,
     onClick: () -> Unit = {},
-    onPressAnimation: Boolean = true
+    onPressAnimation: Boolean = true,
+    iconAlpha: Float = .5f
 ) {
     var pressed by remember { mutableStateOf(false) }
     Row(verticalAlignment = Alignment.CenterVertically,
@@ -129,35 +139,56 @@ fun MenuItem(
                     }
                 )
             }) {
+
         CustomIcon(
             icon,
             modifier = Modifier.graphicsLayer { rotationY = rotation },
             iconColor = iconColor,
             size = size,
+            iconAlpha = iconAlpha
         )
-        Text(text, style = Typography.titleMedium, color = textColor)
-        Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
-            if (isNotification != null) {
-                Switch(checked = isNotification.value,
-                    onCheckedChange = {
-                        onClick()
-                    })
-            } else if (icon2 != null) {
-                CustomIcon(imageVector = icon2, iconColor = iconColor, size = size)
+
+        Text(buildAnnotatedString {
+            withStyle(style = SpanStyle(color = textColor)) {
+                append(text)
+            }
+            withStyle(style = SpanStyle(
+                brush = SolidColor(MaterialTheme.colorScheme.onSurfaceVariant),
+                alpha = 0.5f,
+                fontWeight = FontWeight.Normal
+            )) {
+                if(textAdd != null) {
+                    append(" · $textAdd")
+                }
+            }
+        })
+
+
+        if(isNotification != null || icon2 != null) {
+            Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
+                if (isNotification != null) {
+                    Switch(checked = isNotification.value,
+                        onCheckedChange = {
+                            onClick()
+                        })
+                } else if (icon2 != null) {
+                    CustomIcon(imageVector = icon2, iconColor = iconColor, size = size)
+                }
             }
         }
     }
 }
 
 @Composable
-private fun CustomIcon(
+fun CustomIcon(
     imageVector: ImageVector,
     modifier: Modifier = Modifier,
-    size: Dp,
-    iconColor: Color,
+    size: Dp = 30.dp,
+    iconColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
+    iconAlpha: Float = .5f
 ) {
     Icon(imageVector = imageVector, contentDescription = null,
         modifier = modifier
             .padding(start = 15.dp, end = 15.dp)
-            .size(size), tint = iconColor)
+            .size(size).alpha(iconAlpha), tint = iconColor)
 }

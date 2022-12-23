@@ -26,6 +26,7 @@ import com.example.goneappforandroid.compose.prefFirstStart
 import com.example.goneappforandroid.compose.settings.MenuItem
 import com.example.goneappforandroid.compose.tasks.Task
 import com.example.goneappforandroid.R
+import java.util.Calendar
 
 @Composable
 fun TutorialScreen(
@@ -45,7 +46,7 @@ fun TutorialScreen(
                 hour = 0,
                 day = 999999999999999999,
                 checked = false,
-                confettiGo = confettiGo)
+                confettiGo = confettiGo, cal = remember{ mutableStateOf(Calendar.getInstance()) })
         }
         val currentState = remember { mutableStateOf(MutableTransitionState(false)) }
         currentState.value.targetState = true

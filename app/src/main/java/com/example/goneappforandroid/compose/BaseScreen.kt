@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
 
 package com.example.goneappforandroid.compose
 
@@ -44,7 +44,8 @@ fun BaseScreen(factory: TasksViewModelFactory,
         Scaffold(
             topBar = {
                 CustomTopAppBar(titleState = topBarTitle,
-                    isLeftIcon = false, scrollBehavior = scrollBehavior)
+                    scrollBehavior = scrollBehavior,
+                    navHostController = navController)
             },
             bottomBar = { CustomBottomAppBar(navHostController = navController) }
         ) {

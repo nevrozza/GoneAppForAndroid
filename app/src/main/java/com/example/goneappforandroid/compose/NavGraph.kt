@@ -18,6 +18,7 @@ import com.example.goneappforandroid.compose.tasks.TasksScreen
 import com.example.goneappforandroid.compose.tasks.tutorial.TutorialScreen
 import com.example.goneappforandroid.data.Task
 import com.example.goneappforandroid.R
+import java.util.*
 
 @Composable
 fun NavGraph(
@@ -29,6 +30,7 @@ fun NavGraph(
     lazyState: LazyListState,
 ){
     val local = LocalContext.current
+    val cal = remember { mutableStateOf(Calendar.getInstance()) }
     NavHost(navController = navHostController, startDestination = CustomBottomAppBarItems.Tasks.route) {
         composable(route = CustomBottomAppBarItems.Tasks.route){
             val isFirstStart = prefFirstStart(local, isLoad = true)
@@ -37,7 +39,7 @@ fun NavGraph(
                 TutorialScreen(tasksViewModel = tasksViewModel, confettiGo = confettiGo, navHostController = navHostController, local = local)
             } else {
                 topBarTitle.value = stringResource(id = R.string.title_today)
-                TasksScreen(tasksList = tasksList, tasksViewModel = tasksViewModel, confettiGo = confettiGo, lazyState = lazyState)
+                TasksScreen(tasksList = tasksList, tasksViewModel = tasksViewModel, confettiGo = confettiGo, lazyState = lazyState, cal = cal)
             }
 
         }
@@ -46,7 +48,8 @@ fun NavGraph(
             SettingsScreen(navHostController = navHostController)
         }
         composable(route = "overview"){
-            OverViewScreen()
+            topBarTitle.value = stringResource(id = R.string.title_overview)
+            OverViewScreen(tasksList = tasksList, cal = cal)
         }
     }
 }

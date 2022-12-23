@@ -2,6 +2,7 @@
 
 package com.example.goneappforandroid.compose.tasks
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.*
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.LocalOverscrollConfiguration
@@ -15,28 +16,41 @@ import androidx.compose.ui.unit.dp
 import com.airbnb.lottie.compose.*
 import com.example.goneappforandroid.TasksViewModel
 import com.example.goneappforandroid.data.Task
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.util.*
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TasksScreen(
     tasksViewModel: TasksViewModel,
     tasksList: State<List<Task>>,
     confettiGo: MutableState<Boolean>,
-    lazyState: LazyListState
+    lazyState: LazyListState,
+    cal: MutableState<Calendar>
 ) {
 
     var firstDeploy by remember { mutableStateOf(true) }
+    val coroutine = rememberCoroutineScope()
 
 
+    coroutine.launch {
+        while (true) {
+            delay(5000)
+            cal.value = Calendar.getInstance()
+        }
+    }
     Column(modifier = Modifier.fillMaxSize()) {
 
         if (tasksList.value.isEmpty()) {
                 Task(id = tasksList.value.size,
-                    tasksViewModel = tasksViewModel, confettiGo = confettiGo)
+                    tasksViewModel = tasksViewModel, confettiGo = confettiGo, cal = cal)
         }
         CompositionLocalProvider(
             LocalOverscrollConfiguration provides null
         ) {
+
             LazyColumn(
                 state = lazyState,
                 modifier = Modifier
@@ -54,13 +68,14 @@ fun TasksScreen(
                                 day = item.day,
                                 checked = item.checked,
                                 tasksViewModel = tasksViewModel,
-                                confettiGo = confettiGo, tweenDur = tweenDur)
+                                confettiGo = confettiGo, tweenDur = tweenDur,
+                                cal = cal)
                         tweenDur.value = 800
                         if (tasksList.value.last().id == item.id) {
                             firstDeploy = false
                             Task(tasksViewModel = tasksViewModel,
                                 id = tasksList.value.size,
-                                confettiGo = confettiGo)
+                                confettiGo = confettiGo, cal = cal)
                             Spacer(modifier = Modifier.height(300.dp))
                         }
                     }

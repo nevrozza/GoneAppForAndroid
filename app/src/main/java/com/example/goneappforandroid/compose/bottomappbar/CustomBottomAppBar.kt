@@ -16,7 +16,7 @@ fun CustomBottomAppBar(navHostController: NavHostController){
         objects.forEach{mObject ->
             val selected = currentDestination?.hierarchy?.any { it.route == mObject.route } == true
             NavigationBarItem(
-                icon = { Icon(imageVector = mObject.image, contentDescription = null, tint = if(selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant)},
+                icon = { Icon(imageVector = mObject.image, contentDescription = null, tint = if(selected || (navHostController.currentDestination?.route == "overview" && mObject.route == CustomBottomAppBarItems.Settings.route)) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant)},
                 selected = false,
                 onClick = {
                     if(!selected){

@@ -15,6 +15,46 @@
     <string name="invite">Пригласить друзей</string>
     <string name="weekly_overview">Итоги Недели</string>
     <string name="tutorial_1">Добро пожаловать в Gone, быстрый список дел</string>
-    <string name="tutorial_2">Все задачи исчезнут в течение 24 часов после их добавления</string>
-    <string name="tutorial_3">Выполняйте свои задачи каждый день прежде, чем они исчезнут</string>
+    <string name="tutorial_2">Задача просрочится через 24 часа после её добавления</string>
+    <string name="tutorial_3">Выполняйте свои задачи каждый день прежде, чем они просрочатся</string>
+    <string name="title_overview">Итоги</string>
+
+    <string name="month_0">Января</string>
+    <string name="month_1">Февраля</string>
+    <string name="month_2">Марта</string>
+    <string name="month_3">Апреля</string>
+    <string name="month_4">Мая</string>
+    <string name="month_5">Июня</string>
+    <string name="month_6">Июля</string>
+    <string name="month_7">Августа</string>
+    <string name="month_8">Сентября</string>
+    <string name="month_9">Октября</string>
+    <string name="month_10">Ноября</string>
+    <string name="month_11">Декабря</string>
+
+    <string-array name="ordinals">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+    </string-array>
+
+    <string name="tasks_incomplete">провалено</string>
+    <string name="tasks_completed">выполнено</string>
+    <string name="tasks_expired">просрочено</string>
+    <string name="tasks_idle">в процессе</string>
+
+    <plurals name="tasks">
+        <item quantity="one">%1$d задача</item>
+        <item quantity="few">%1$d задачи</item>
+        <item quantity="many">%1$d задач</item>
+        <item quantity="other">%1$d задач</item>
+    </plurals>
+
 </resources>
