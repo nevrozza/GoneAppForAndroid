@@ -14,7 +14,6 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Notifications
-import androidx.compose.material.icons.outlined.PersonAdd
 import androidx.compose.material.icons.rounded.ArrowForwardIos
 import androidx.compose.material.icons.rounded.TaskAlt
 import androidx.compose.material3.Icon
@@ -28,7 +27,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.graphicsLayer
+
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
@@ -73,9 +72,8 @@ fun SettingsScreen(navHostController: NavHostController) {
 
 
             MenuItem(
-                icon = Icons.Outlined.PersonAdd,
+                icon = Icons.GitHub,
                 text = stringResource(id = R.string.invite),
-                rotation = 180f,
                 onClick = {})
 
         }
@@ -105,7 +103,6 @@ fun MenuItem(
     icon: ImageVector,
     text: String,
     textAdd: String? = null,
-    rotation: Float = 0f,
     isNotification: MutableState<Boolean>? = null,
     icon2: ImageVector? = null,
     textColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -142,7 +139,6 @@ fun MenuItem(
 
         CustomIcon(
             icon,
-            modifier = Modifier.graphicsLayer { rotationY = rotation },
             iconColor = iconColor,
             size = size,
             iconAlpha = iconAlpha
