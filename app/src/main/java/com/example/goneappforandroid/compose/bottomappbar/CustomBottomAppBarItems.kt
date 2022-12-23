@@ -2,7 +2,6 @@ package com.example.goneappforandroid.compose.bottomappbar
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Menu
-import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
 
@@ -10,12 +9,12 @@ sealed class CustomBottomAppBarItems(
     val route: String,
     val image: ImageVector
 ){
-    object tasks: CustomBottomAppBarItems(
-        route = "tasks",
+    object Tasks: CustomBottomAppBarItems(
+        route = "Tasks",
         image = Icons.Outlined.Menu
     )
-    object settings: CustomBottomAppBarItems(
-        route = "settings",
+    object Settings: CustomBottomAppBarItems(
+        route = "Settings",
         image = Icons.Rounded.Settings
     )
 

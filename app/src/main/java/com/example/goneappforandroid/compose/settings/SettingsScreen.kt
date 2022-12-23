@@ -2,15 +2,13 @@ package com.example.goneappforandroid.compose.settings
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Notifications
@@ -49,7 +47,9 @@ fun SettingsScreen(navHostController: NavHostController) {
                 icon = Icons.Rounded.TaskAlt,
                 text = "Weekly Overview",
                 icon2 = Icons.Rounded.ArrowForwardIos,
-                onClick = {})
+                onClick = {
+                    navHostController.navigate("overview")
+                })
 
 
             MenuItem(endPadding = 20.dp,
@@ -84,7 +84,7 @@ fun prefNotification(
     } else {
         val ed: SharedPreferences.Editor = sPref.edit()
         ed.putBoolean("isNotification", value)
-        ed.commit()
+        ed.apply()
         true
     }
 }

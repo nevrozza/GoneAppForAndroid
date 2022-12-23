@@ -45,7 +45,7 @@ fun TutorialScreen(
                 checked = false,
                 confettiGo = confettiGo)
         }
-        var currentState = remember { mutableStateOf(MutableTransitionState(false)) }
+        val currentState = remember { mutableStateOf(MutableTransitionState(false)) }
         currentState.value.targetState = true
         AnimatedVisibility(visibleState = currentState.value,
             enter = fadeIn(tween(800))) {
@@ -59,7 +59,7 @@ fun TutorialScreen(
                     iconColor = MaterialTheme.colorScheme.primary,
                     onClick = {
                         prefFirstStart(local)
-                        navHostController.navigate(CustomBottomAppBarItems.tasks.route)
+                        navHostController.navigate(CustomBottomAppBarItems.Tasks.route)
                     })
             }
         }

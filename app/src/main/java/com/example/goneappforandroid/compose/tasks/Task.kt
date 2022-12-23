@@ -1,12 +1,10 @@
 @file:OptIn(
-    ExperimentalTextApi::class
+    ExperimentalTextApi::class,
+    ExperimentalComposeUiApi::class
 )
 
 package com.example.goneappforandroid.compose.tasks
 
-import android.content.Context
-import android.util.Log
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
@@ -21,6 +19,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
@@ -31,6 +30,7 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.*
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
@@ -38,14 +38,9 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.example.goneappforandroid.TasksViewModel
 import com.example.goneappforandroid.ui.theme.Typography
+import kotlinx.coroutines.delay
 import java.util.*
 
-
-//Date().minutes - minutes
-//Date().hours - hours
-//Date().date - day
-//Date().month - month
-//Date().year - year
 
 
 @Composable
@@ -79,16 +74,15 @@ fun Task(
     val expanded = remember { mutableStateOf(false) }
     var offsetX by remember { mutableStateOf(0.dp) }
 
-    val imm = mLocal.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-
+    val keyboard = LocalSoftwareKeyboardController.current
     var currentState = remember { MutableTransitionState(false) }
     currentState.targetState = true
-
+    val cal = Calendar.getInstance()
     val durationDay =
-        day - (((Date().year - 1) * 365) + ((Date().month - 1) * 30) + (Date().date))
+        day - ( ((cal.get(Calendar.YEAR) - 1901) * 365 ) + ((cal.get(Calendar.MONTH) - 1 ) * 30 ) + cal.get(Calendar.DAY_OF_MONTH))
     val hours = hour + durationDay * 24
-    val durationHours = hours - Date().hours
-    val durationMinutes = minute - Date().minutes
+    val durationHours = hours - cal.get(Calendar.HOUR_OF_DAY)
+    val durationMinutes = minute - cal.get(Calendar.MINUTE)
     var duration = "$durationHours h"
     if (durationHours <= 0) {
         duration = "$durationMinutes m"
@@ -126,7 +120,9 @@ fun Task(
                     if (editing.value) {
                         focusRequester.requestFocus()
                         expanded.value = false
-                        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+                        //necessarily
+                        delay(150)
+                        keyboard?.show()
                     }
                 }
                 BackHandler(enabled = editing.value) {
@@ -202,11 +198,11 @@ fun Task(
                                                 tasksViewModel.textTask(id, value.value.text)
                                             } else {
                                                 val newDay =
-                                                    ((Date().year - 1) * 365) + ((Date().month - 1) * 30) + (Date().date + 1)
+                                                    ((cal.get(Calendar.YEAR) - 1901) * 365) + ((cal.get(Calendar.MONTH) - 1) * 30) + (cal.get(Calendar.DAY_OF_MONTH) + 1)
                                                 tasksViewModel.insertTask(
                                                     value.value.text,
-                                                    minute = Date().minutes,
-                                                    hour = Date().hours,
+                                                    minute = cal.get(Calendar.MINUTE),
+                                                    hour = cal.get(Calendar.HOUR_OF_DAY),
                                                     day = newDay.toLong(),
                                                     checked = false
                                                 )
@@ -269,7 +265,6 @@ fun Task(
         }
     }
     if (duration.subSequence(0, duration.length-2).toString().toLong() < 0) {
-
+        15+11
     }
-
 }

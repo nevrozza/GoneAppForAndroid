@@ -1,23 +1,18 @@
 package com.example.goneappforandroid.compose.bottomappbar
 
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 
 @Composable
 fun CustomBottomAppBar(navHostController: NavHostController){
-    val objects = listOf(CustomBottomAppBarItems.tasks, CustomBottomAppBarItems.settings)
+    val objects = listOf(CustomBottomAppBarItems.Tasks, CustomBottomAppBarItems.Settings)
     val navBackStackEntry by navHostController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
-    //contentColor = MaterialTheme.colorScheme.surface
-    NavigationBar() {
+    NavigationBar {
         objects.forEach{mObject ->
             val selected = currentDestination?.hierarchy?.any { it.route == mObject.route } == true
             NavigationBarItem(

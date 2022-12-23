@@ -1,5 +1,4 @@
-@file:OptIn(ExperimentalFoundationApi::class, ExperimentalFoundationApi::class,
-    ExperimentalAnimationApi::class)
+@file:OptIn(ExperimentalFoundationApi::class, ExperimentalFoundationApi::class)
 
 package com.example.goneappforandroid.compose.tasks
 
@@ -43,7 +42,7 @@ fun TasksScreen(
                 modifier = Modifier
                     .fillMaxWidth()) {
                 items(items = tasksList.value, key = {item -> item.id}) { item ->
-                    var tweenDur = remember {
+                    val tweenDur = remember {
                         mutableStateOf(if(tasksList.value.last().id == item.id && !firstDeploy) 0 else 800)
                     }
                     Column(modifier = Modifier.animateItemPlacement()) {

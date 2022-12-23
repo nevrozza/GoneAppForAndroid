@@ -2,7 +2,7 @@ package com.example.goneappforandroid.compose
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.goneappforandroid.TasksViewModel
 import com.example.goneappforandroid.compose.bottomappbar.CustomBottomAppBarItems
+import com.example.goneappforandroid.compose.settings.OverViewScreen
 import com.example.goneappforandroid.compose.settings.SettingsScreen
 import com.example.goneappforandroid.compose.tasks.TasksScreen
 import com.example.goneappforandroid.compose.tasks.tutorial.TutorialScreen
@@ -26,8 +27,8 @@ fun NavGraph(
     lazyState: LazyListState,
 ){
     val local = LocalContext.current
-    NavHost(navController = navHostController, startDestination = CustomBottomAppBarItems.tasks.route) {
-        composable(route = CustomBottomAppBarItems.tasks.route){
+    NavHost(navController = navHostController, startDestination = CustomBottomAppBarItems.Tasks.route) {
+        composable(route = CustomBottomAppBarItems.Tasks.route){
             val isFirstStart = prefFirstStart(local, isLoad = true)
             if(isFirstStart){
                 topBarTitle.value = "Gone"
@@ -38,12 +39,12 @@ fun NavGraph(
             }
 
         }
-        composable(route = CustomBottomAppBarItems.settings.route){
+        composable(route = CustomBottomAppBarItems.Settings.route){
             topBarTitle.value = "Settings"
             SettingsScreen(navHostController = navHostController)
         }
         composable(route = "overview"){
-
+            OverViewScreen()
         }
     }
 }
@@ -55,7 +56,7 @@ fun prefFirstStart(local: Context, isLoad: Boolean = false): Boolean{
     } else {
         val ed: SharedPreferences.Editor = sPref.edit()
         ed.putBoolean("isFirstStart", false)
-        ed.commit()
+        ed.apply()
         false
     }
 
