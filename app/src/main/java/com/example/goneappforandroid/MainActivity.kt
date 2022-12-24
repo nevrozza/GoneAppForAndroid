@@ -16,7 +16,6 @@ import java.time.Duration
 import java.util.Calendar
 import kotlin.time.Duration.Companion.minutes
 
-var notificationGo = mutableStateOf(false)
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
