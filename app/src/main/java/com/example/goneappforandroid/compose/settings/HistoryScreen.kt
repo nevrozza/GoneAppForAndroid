@@ -53,8 +53,8 @@ fun HistoryScreen(
     }
     if (history == 0) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            Icon(imageVector = icGone, contentDescription = null, modifier = Modifier
-                .size(300.dp)
+            Icon(imageVector = icClock, contentDescription = null, modifier = Modifier
+                .size(500.dp)
                 .alpha(.1f), tint = Color.Gray)
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(stringResource(id = R.string.here_is_empty), style = Typography.titleLarge)
