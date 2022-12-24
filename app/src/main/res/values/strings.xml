@@ -19,7 +19,12 @@
     <string name="github">Project code</string>
     <string name="title_overview">Overview</string>>
     <string name="title_history">History</string>>
+    <string name="notification_expiring">Task expiring</string>>
+    <string name="notification_overview">Your weekly overview</string>>
     <string name="here_is_empty">It\'s empty here</string>>
+
+    <string name="you_completed">You completed</string>>
+    <string name="of">of your</string>>
 
     <string name="month_0">January</string>
     <string name="month_1">February</string>

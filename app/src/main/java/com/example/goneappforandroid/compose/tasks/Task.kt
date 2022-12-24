@@ -98,7 +98,7 @@ fun Task(
     } else {
 
 
-        val duration = durationReturn(day = day, minute = minute, hour = hour, cal = cal)
+        val duration = durationReturn(day = day, minute = minute, hour = hour, cal = cal, minutesText = stringResource(id = R.string.minutes), hoursText = stringResource(id = R.string.hours))
         if (duration.subSequence(0, duration.length - 2).toString().toLong() > 0 || text == null) {
             AnimatedVisibility(visibleState = currentState.value,
                 enter = fadeIn(tween(tweenDur.value))) {
@@ -302,8 +302,8 @@ fun Task(
 
 
 
-@Composable
-fun durationReturn(day: Long, minute: Int, hour: Int, cal: MutableState<Calendar>): String{
+
+fun durationReturn(day: Long, minute: Int, hour: Int, cal: MutableState<Calendar>, minutesText: String, hoursText: String): String{
     val durationDay =
         day - (((cal.value.get(Calendar.YEAR) - 1901) * 365) + ((cal.value.get(Calendar.MONTH) - 1) * 30) + cal.value.get(
             Calendar.DAY_OF_MONTH))
@@ -311,8 +311,6 @@ fun durationReturn(day: Long, minute: Int, hour: Int, cal: MutableState<Calendar
     val durationHours = hours - cal.value.get(Calendar.HOUR_OF_DAY)
     val durationMinutes = minute - cal.value.get(Calendar.MINUTE)
 
-    val minutesText = stringResource(id = R.string.minutes)
-    val hoursText = stringResource(id = R.string.hours)
     return if (durationHours == 0.toLong()) "$durationMinutes $minutesText"
     else "$durationHours $hoursText"
 }

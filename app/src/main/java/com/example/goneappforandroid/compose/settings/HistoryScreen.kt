@@ -50,7 +50,7 @@ fun HistoryScreen(
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(items = tasksList.value) { item ->
 
-                val duration = durationReturn(day = item.day, minute = item.minute, hour = item.hour, cal = cal)
+                val duration = durationReturn(day = item.day, minute = item.minute, hour = item.hour, cal = cal, minutesText = stringResource(id = R.string.minutes), hoursText = stringResource(id = R.string.hours))
                 if (duration.subSequence(0, duration.length - 2).toString().toLong() < 0) {
 
                         MenuItem(icon = Icons.Rounded.Schedule,

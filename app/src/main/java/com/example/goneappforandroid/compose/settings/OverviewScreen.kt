@@ -63,7 +63,7 @@ fun OverViewScreen(
     for (item in tasksList.value) {
 
 
-        val duration = durationReturn(day = item.day, minute = item.minute, hour = item.hour, cal = cal)
+        val duration = durationReturn(day = item.day, minute = item.minute, hour = item.hour, cal = cal, minutesText = stringResource(id = R.string.minutes), hoursText = stringResource(id = R.string.hours))
         if(duration.subSequence(0, duration.length - 2).toString().toLong() < 0){
             expiredCount++
             if(!item.checked) {

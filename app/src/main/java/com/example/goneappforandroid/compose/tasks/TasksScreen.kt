@@ -3,6 +3,9 @@
 package com.example.goneappforandroid.compose.tasks
 
 import android.annotation.SuppressLint
+import android.icu.util.TimeUnit
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.*
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.LocalOverscrollConfiguration
@@ -13,10 +16,15 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.work.PeriodicWorkRequest
 import com.airbnb.lottie.compose.*
 import com.example.goneappforandroid.TasksViewModel
 import com.example.goneappforandroid.data.Task
 import java.util.*
+import javax.xml.datatype.DatatypeConstants.MINUTES
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.DurationUnit
+
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @OptIn(ExperimentalFoundationApi::class)
@@ -26,9 +34,8 @@ fun TasksScreen(
     tasksList: State<List<Task>>,
     confettiGo: MutableState<Boolean>,
     lazyState: LazyListState,
-    cal: MutableState<Calendar>
+    cal: MutableState<Calendar>,
 ) {
-
     var firstDeploy by remember { mutableStateOf(true) }
     Column(modifier = Modifier.fillMaxSize()) {
 
