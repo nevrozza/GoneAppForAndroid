@@ -1,8 +1,13 @@
+
+
 package com.example.goneappforandroid.compose
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.compose.animation.*
+import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.tween
 import androidx.preference.PreferenceManager
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.*
@@ -50,7 +55,7 @@ fun NavGraph(
         composable(route = CustomBottomAppBarItems.Tasks.route){
             val isFirstStart = prefFirstStart(local, isLoad = true)
             if(isFirstStart){
-                topBarTitle.value = stringResource(id = R.string.title_tutorial)
+                topBarTitle.value = stringResource(id = R.string.app_name)
                 TutorialScreen(tasksViewModel = tasksViewModel, confettiGo = confettiGo, navHostController = navHostController, local = local)
             } else {
                 topBarTitle.value = stringResource(id = R.string.title_today)
@@ -60,16 +65,36 @@ fun NavGraph(
         }
         composable(route = CustomBottomAppBarItems.Settings.route){
             topBarTitle.value = stringResource(id = R.string.title_settings)
-            SettingsScreen(navHostController = navHostController)
+            CustomAnimation {
+                SettingsScreen(navHostController = navHostController)
+            }
+
         }
         composable(route = "overview"){
             topBarTitle.value = stringResource(id = R.string.title_overview)
-            OverViewScreen(tasksList = tasksList, cal = cal, navHostController = navHostController)
+
+            CustomAnimation {
+                OverViewScreen(tasksList = tasksList, cal = cal, navHostController = navHostController)
+            }
+
+
         }
         composable(route = "history"){
             topBarTitle.value = stringResource(id = R.string.title_history)
-            HistoryScreen(tasksList = tasksList, cal = cal)
+            CustomAnimation {
+                HistoryScreen(tasksList = tasksList, cal = cal)
+            }
+
         }
+    }
+}
+
+@Composable
+fun CustomAnimation(content: @Composable() AnimatedVisibilityScope.() -> Unit){
+    val currentState = remember { MutableTransitionState(false) }
+    currentState.targetState = true
+    AnimatedVisibility(visibleState = currentState, enter = fadeIn(tween(800))) {
+            content()
     }
 }
 

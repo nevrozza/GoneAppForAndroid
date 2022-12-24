@@ -3,13 +3,11 @@
 package com.example.goneappforandroid.compose.settings
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -32,6 +30,7 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.SpanStyle
@@ -41,51 +40,63 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
 import com.example.goneappforandroid.R
 
 @Composable
 fun SettingsScreen(navHostController: NavHostController) {
-    val currentState = remember { MutableTransitionState(false) }
-    currentState.targetState = true
     val local = LocalContext.current
     val isNotification = remember {
         mutableStateOf(prefNotification(local, isLoad = true))
     }
-    AnimatedVisibility(visibleState = currentState, enter = fadeIn(tween(800))) {
-        Column(modifier = Modifier.fillMaxSize()) {
-            MenuItem(
-                icon = Icons.Rounded.TaskAlt,
-                text = stringResource(id = R.string.weekly_overview),
-                icon2 = Icons.Rounded.ArrowForwardIos,
-                size2 = 25.dp,
-                onClick = {
-                    navHostController.navigate("overview")
-                })
+
+    Column(modifier = Modifier.fillMaxSize()) {
+        MenuItem(
+            icon = Icons.Rounded.TaskAlt,
+            text = stringResource(id = R.string.weekly_overview),
+            icon2 = Icons.Rounded.ArrowForwardIos,
+            size2 = 25.dp,
+            onClick = {
+                navHostController.navigate("overview")
+            })
 
 
-            MenuItem(endPadding = 20.dp,
-                icon = Icons.Outlined.Notifications,
-                text = stringResource(id = R.string.notifications),
-                isNotification = isNotification,
-                onClick = {
-                    isNotification.value = !isNotification.value
-                    prefNotification(local, isNotification.value)
-                })
+        MenuItem(endPadding = 20.dp,
+            icon = Icons.Outlined.Notifications,
+            text = stringResource(id = R.string.notifications),
+            isNotification = isNotification,
+            onClick = {
+                isNotification.value = !isNotification.value
+                prefNotification(local, isNotification.value)
+            })
 
-            MenuItem(
-                icon = icGitHub,
-                text = stringResource(id = R.string.github),
-                onClick = {})
+        val uriHandler = LocalUriHandler.current
+        MenuItem(
+            icon = icGitHub,
+            text = stringResource(id = R.string.github),
+            onClick = {
+                uriHandler.openUri("https://github.com/nevrozza/done-app")
+            })
 
-            MenuItem(
-                icon = Icons.Rounded.Share,
-                text = stringResource(id = R.string.share),
-                onClick = {})
+        val shareTitle = stringResource(id = R.string.app_name)
+        MenuItem(
+            icon = Icons.Rounded.Share,
+            text = stringResource(id = R.string.share),
+            onClick = {
+                val text = "sadasd"
+                val intent = Intent(Intent.ACTION_SEND)
+                intent.type = "text/plain"
+                intent.putExtra(Intent.EXTRA_TEXT, text)
 
-        }
+                ContextCompat.startActivity(
+                    local,
+                    Intent.createChooser(intent, shareTitle),
+                    null
+                )
+            })
+
     }
-
 }
 
 fun prefNotification(
@@ -119,7 +130,7 @@ fun MenuItem(
     onPressAnimation: Boolean = true,
     iconAlpha: Float = .5f,
     isHistory: Boolean = false,
-    size2: Dp = 30.dp
+    size2: Dp = 30.dp,
 ) {
     var pressed by remember { mutableStateOf(false) }
     Row(verticalAlignment = Alignment.CenterVertically,
@@ -131,14 +142,14 @@ fun MenuItem(
             .pointerInput(Unit) {
                 detectTapGestures(
                     onPress = {
-                        if(onPressAnimation) {
+                        if (onPressAnimation) {
                             pressed = true
                             tryAwaitRelease()
                             pressed = false
                         }
                     },
                     onTap = {
-                        if(onPressAnimation){
+                        if (onPressAnimation) {
                             pressed = true
                         }
                         onClick()
@@ -154,7 +165,7 @@ fun MenuItem(
         )
 
         Text(buildAnnotatedString {
-            withStyle(style = if(isHistory) SpanStyle(
+            withStyle(style = if (isHistory) SpanStyle(
                 textDecoration = TextDecoration.LineThrough,
                 brush = SolidColor(textColor),
                 alpha = .5f
@@ -166,14 +177,14 @@ fun MenuItem(
                 alpha = 0.5f,
                 fontWeight = FontWeight.Normal
             )) {
-                if(textAdd != null) {
+                if (textAdd != null) {
                     append(" · $textAdd")
                 }
             }
         })
 
 
-        if(isNotification != null || icon2 != null) {
+        if (isNotification != null || icon2 != null) {
             Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
                 if (isNotification != null) {
                     Switch(checked = isNotification.value,
@@ -194,10 +205,11 @@ fun CustomIcon(
     modifier: Modifier = Modifier,
     size: Dp = 30.dp,
     iconColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
-    iconAlpha: Float = .5f
+    iconAlpha: Float = .5f,
 ) {
     Icon(imageVector = imageVector, contentDescription = null,
         modifier = modifier
             .padding(start = 15.dp, end = 15.dp)
-            .size(size).alpha(iconAlpha), tint = iconColor)
+            .size(size)
+            .alpha(iconAlpha), tint = iconColor)
 }

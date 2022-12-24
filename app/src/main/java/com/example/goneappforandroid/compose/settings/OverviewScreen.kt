@@ -2,10 +2,6 @@
 
 package com.example.goneappforandroid.compose.settings
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.MutableTransitionState
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CalendarToday
@@ -15,7 +11,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
-import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.pluralStringResource
@@ -35,9 +30,6 @@ fun OverViewScreen(
     cal: MutableState<Calendar>,
     navHostController: NavHostController
 ) {
-    val currentState = remember { MutableTransitionState(false) }
-    currentState.targetState = true
-
     var previousMonth = cal.value.get(Calendar.MONTH)
     var previousDay = cal.value.get(Calendar.DAY_OF_MONTH)-7
     val currentDay = cal.value.get(Calendar.DAY_OF_MONTH)
@@ -64,7 +56,7 @@ fun OverViewScreen(
 
 
         val duration = durationReturn(day = item.day, minute = item.minute, hour = item.hour, cal = cal, minutesText = stringResource(id = R.string.minutes), hoursText = stringResource(id = R.string.hours))
-        if(duration.subSequence(0, duration.length - 2).toString().toLong() < 0){
+        if(duration.subSequence(0, duration.length - 2).toString().toLong() <= 0){
             expiredCount++
             if(!item.checked) {
                 incomplete++
@@ -75,7 +67,7 @@ fun OverViewScreen(
         }
     }
 
-    AnimatedVisibility(visibleState = currentState, enter = fadeIn(tween(800))) {
+
         Column(modifier = Modifier.fillMaxSize()) {
 
             MenuItem(icon = Icons.Outlined.CalendarToday,
@@ -108,7 +100,7 @@ fun OverViewScreen(
                 onPressAnimation = false,
                 iconAlpha = 1f)
         }
-    }
+
 }
 
 @Composable

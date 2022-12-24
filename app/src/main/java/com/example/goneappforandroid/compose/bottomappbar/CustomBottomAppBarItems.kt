@@ -10,11 +10,11 @@ sealed class CustomBottomAppBarItems(
     val image: ImageVector
 ){
     object Tasks: CustomBottomAppBarItems(
-        route = "Tasks",
+        route = "tasks",
         image = Icons.Outlined.Menu
     )
     object Settings: CustomBottomAppBarItems(
-        route = "Settings",
+        route = "settings",
         image = Icons.Rounded.Settings
     )
 

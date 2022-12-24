@@ -310,7 +310,9 @@ fun durationReturn(day: Long, minute: Int, hour: Int, cal: MutableState<Calendar
     val hours = hour + durationDay * 24
     val durationHours = hours - cal.value.get(Calendar.HOUR_OF_DAY)
     val durationMinutes = minute - cal.value.get(Calendar.MINUTE)
-
     return if (durationHours == 0.toLong()) "$durationMinutes $minutesText"
+    else if (durationHours == 1.toLong() && durationMinutes < 0){
+        "${60+durationMinutes} $minutesText"
+    }
     else "$durationHours $hoursText"
 }

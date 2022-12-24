@@ -21,19 +21,10 @@ fun CustomTopAppBar(
     titleState: MutableState<String>,
     navHostController: NavHostController
 ) {
-    AnimatedContent(targetState = titleState.value, transitionSpec = {
-        fadeIn(animationSpec = tween(400, delayMillis = 90)) +
-                scaleIn(initialScale = 0.92f, animationSpec = tween(400, delayMillis = 90)) with
-                fadeOut(animationSpec = tween(200))
-    }) {title ->
+    AnimatedContent(targetState = titleState.value, transitionSpec = {customTransitionSpec()}) {title ->
         TopAppBar(title = { Text(text = title) },
             navigationIcon = {
-                AnimatedContent(targetState = navHostController.currentDestination?.route,
-                    transitionSpec = {
-                    fadeIn(animationSpec = tween(400, delayMillis = 90)) +
-                            scaleIn(initialScale = 0.92f, animationSpec = tween(400, delayMillis = 90)) with
-                            fadeOut(animationSpec = tween(200))
-                }) { route ->
+                AnimatedContent(targetState = navHostController.currentDestination?.route, transitionSpec = {customTransitionSpec()}) { route ->
                     IconButton(onClick = {
                         if(route == "overview" || route == "history"){
                             navHostController.navigateUp()
@@ -47,3 +38,5 @@ fun CustomTopAppBar(
             scrollBehavior = scrollBehavior)
     }
 }
+
+private fun customTransitionSpec():  ContentTransform {return fadeIn(tween(800)) with fadeOut()}

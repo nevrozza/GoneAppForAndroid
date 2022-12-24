@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Gone</string>
-    <string name="title_tutorial">Gone</string>
+    <string name="app_name">Done</string>
     <string name="title_today">Сегодня</string>
     <string name="title_settings">Настройки</string>
     <string name="hours">ч</string>
@@ -15,12 +14,13 @@
     <string name="share">Поделиться Приложением</string>
     <string name="github">Код проекта</string>
     <string name="weekly_overview">Итоги Недели</string>
-    <string name="tutorial_1">Добро пожаловать в Gone, быстрый список дел</string>
+    <string name="tutorial_1">Добро пожаловать в Done, быстрый список дел</string>
     <string name="tutorial_2">Задача просрочится через 24 часа после её добавления</string>
     <string name="tutorial_3">Выполняйте свои задачи каждый день прежде, чем они просрочатся</string>
     <string name="title_overview">Итоги</string>
     <string name="title_history">История</string>>
     <string name="here_is_empty">Здесь пусто</string>>
+    <string name="fall_here">Нет просроченных задач</string>>
 
     <string name="notification_expiring">Срок действия задачи истекает</string>>
     <string name="notification_overview">Ваши итоги недели</string>>
