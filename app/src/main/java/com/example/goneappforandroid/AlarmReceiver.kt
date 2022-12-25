@@ -1,3 +1,5 @@
+@file:OptIn(DelicateCoroutinesApi::class)
+
 package com.example.goneappforandroid
 
 import android.app.Notification
@@ -15,19 +17,29 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goneappforandroid.data.Task
 import com.example.goneappforandroid.data.TasksDatabase
 import com.example.goneappforandroid.data.TasksRepositoryImpl
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.launch
-
 class AlarmReceiver: BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         Log.e("yeah", "yeah")
 
+        val dao = TasksDatabase.getInstance(context = context!!.applicationContext).dao
+        //val repository = TasksRepositoryImpl(dao)
+        var list: List<Task> = listOf()
+        runBlocking {
+            launch {
+                Log.e("sad", "dsa")
+                list = dao.getTasks().flattenToList()
+                Log.e("list", list.toString())
+            }
+        }
 
-            val parcelize = intent?.getParcelableExtra<Parcelize>("parcelize")
 
-        val builder = NotificationCompat.Builder(context!!, "DoneApp")
+
+        val builder = NotificationCompat.Builder(context, "DoneApp")
             .setSmallIcon(R.drawable.icon)
             .setContentTitle("Done App")
             .setContentText("")
@@ -35,14 +47,16 @@ class AlarmReceiver: BroadcastReceiver() {
             .setDefaults(NotificationCompat.DEFAULT_ALL)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
         val notificationManager = NotificationManagerCompat.from(context)
-        if(parcelize?.tasksList != null) {
-            for (i in parcelize.tasksList.value) {
-                Log.e("id", i.id.toString())
+
+        if(list.isNotEmpty()){
+            for(i in list){
+                Log.e("string", i.toString())
             }
         } else {
-            Log.e("fuck", "tasksList == null")
+            Log.e("log---", "---------------------------------")
         }
+
         notificationManager.notify(123, builder.build())
     }
-
+    suspend fun <T> Flow<List<T>>.flattenToList() = flatMapConcat { it.asFlow() }.toList()
 }

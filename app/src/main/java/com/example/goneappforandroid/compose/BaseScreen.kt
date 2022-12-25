@@ -33,15 +33,14 @@ fun BaseScreen(factory: TasksViewModelFactory,
                tasksViewModel: TasksViewModel = viewModel(factory = factory),
                context: Context, alarmManager: AlarmManager
 ) {
-    val tasksList = tasksViewModel.tasks.collectAsState(initial = emptyList())
+    val tasksList = tasksViewModel.tasks.collectAsState(initial = listOf())
     val topBarTitle = remember{ mutableStateOf("") }
     val navController = rememberNavController()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val lazyState = rememberLazyListState()
     setRepeatAlarm(
         alarmManager = alarmManager,
-        context = context,
-        parcelize = Parcelize(tasksList = tasksList)
+        context = context
     )
     GoneAppForAndroidTheme {
         val confettiGo = remember { mutableStateOf(false)}

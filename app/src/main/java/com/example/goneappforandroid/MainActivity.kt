@@ -16,7 +16,6 @@ import com.example.goneappforandroid.compose.BaseScreen
 import com.example.goneappforandroid.data.Task
 import com.example.goneappforandroid.data.TasksDatabase
 import com.example.goneappforandroid.data.TasksRepositoryImpl
-import kotlinx.parcelize.RawValue
 import java.util.*
 
 class MainActivity : ComponentActivity() {
@@ -52,15 +51,11 @@ class MainActivity : ComponentActivity() {
 //notificationManager = getSystemService(NotificationManger::class.java)
 
 
-@kotlinx.parcelize.Parcelize
-data class Parcelize(
-    val tasksList: @RawValue State<List<Task>>
-    ) : Parcelable
 
-fun setRepeatAlarm(alarmManager: AlarmManager, context: Context, parcelize: Parcelize, ) {
+
+fun setRepeatAlarm(alarmManager: AlarmManager, context: Context) {
     val intent = Intent(context, AlarmReceiver::class.java)
     val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
-    intent.putExtra("parcelize", parcelize)
     alarmManager.setRepeating(
         AlarmManager.RTC,
         Calendar.getInstance().timeInMillis,
