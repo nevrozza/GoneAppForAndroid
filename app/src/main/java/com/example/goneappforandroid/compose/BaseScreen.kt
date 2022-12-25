@@ -3,7 +3,8 @@
 package com.example.goneappforandroid.compose
 
 import android.annotation.SuppressLint
-import android.os.Build
+import android.app.AlarmManager
+import android.content.Context
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -18,30 +19,30 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
-import androidx.work.PeriodicWorkRequest
-import androidx.work.WorkManager
 import com.airbnb.lottie.compose.*
+import com.example.goneappforandroid.*
 import com.example.goneappforandroid.R
-import com.example.goneappforandroid.TasksViewModel
-import com.example.goneappforandroid.TasksViewModelFactory
 import com.example.goneappforandroid.compose.bottomappbar.CustomBottomAppBar
 
 import com.example.goneappforandroid.ui.theme.GoneAppForAndroidTheme
-import java.time.Duration
 
 
 @SuppressLint("RestrictedApi")
 @Composable
 fun BaseScreen(factory: TasksViewModelFactory,
-               tasksViewModel: TasksViewModel = viewModel(factory = factory)
+               tasksViewModel: TasksViewModel = viewModel(factory = factory),
+               context: Context, alarmManager: AlarmManager
 ) {
     val tasksList = tasksViewModel.tasks.collectAsState(initial = emptyList())
     val topBarTitle = remember{ mutableStateOf("") }
     val navController = rememberNavController()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val lazyState = rememberLazyListState()
-
-
+    setRepeatAlarm(
+        alarmManager = alarmManager,
+        context = context,
+        parcelize = Parcelize(tasksList = tasksList)
+    )
     GoneAppForAndroidTheme {
         val confettiGo = remember { mutableStateOf(false)}
         var bottomPadding by remember { mutableStateOf(0.dp)}
