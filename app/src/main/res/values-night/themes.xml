@@ -2,7 +2,7 @@
 <resources>
 
     <style name="Theme.GoneAppForAndroid" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="colorPrimary">@color/black</item>
-        <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/black</item>
     </style>
 </resources>
