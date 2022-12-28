@@ -38,10 +38,6 @@ fun BaseScreen(factory: TasksViewModelFactory,
     val navController = rememberNavController()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val lazyState = rememberLazyListState()
-    setRepeatAlarm(
-        alarmManager = alarmManager,
-        context = context
-    )
     GoneAppForAndroidTheme {
         val confettiGo = remember { mutableStateOf(false)}
         var bottomPadding by remember { mutableStateOf(0.dp)}

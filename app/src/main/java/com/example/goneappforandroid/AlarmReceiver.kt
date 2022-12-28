@@ -7,9 +7,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.collectAsState
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.ViewModel
@@ -25,38 +22,20 @@ import kotlinx.coroutines.flow.toList
 class AlarmReceiver: BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         Log.e("yeah", "yeah")
-
-        val dao = TasksDatabase.getInstance(context = context!!.applicationContext).dao
-        //val repository = TasksRepositoryImpl(dao)
-        var list: List<Task> = listOf()
-        runBlocking {
-            launch {
-                Log.e("sad", "dsa")
-                list = dao.getTasks().flattenToList()
-                Log.e("list", list.toString())
-            }
-        }
+        val text = intent!!.getStringExtra("text")
+        val label = intent.getStringExtra("label")
+        val id = intent.getIntExtra("id", 123)
 
 
 
-        val builder = NotificationCompat.Builder(context, "DoneApp")
+        val builder = NotificationCompat.Builder(context!!, "DoneApp")
             .setSmallIcon(R.drawable.icon)
-            .setContentTitle("Done App")
-            .setContentText("")
+            .setContentTitle(label)
+            .setContentText(text)
             .setAutoCancel(true)
             .setDefaults(NotificationCompat.DEFAULT_ALL)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
         val notificationManager = NotificationManagerCompat.from(context)
-
-        if(list.isNotEmpty()){
-            for(i in list){
-                Log.e("string", i.toString())
-            }
-        } else {
-            Log.e("log---", "---------------------------------")
-        }
-
-        notificationManager.notify(123, builder.build())
+        notificationManager.notify(id, builder.build())
     }
-    suspend fun <T> Flow<List<T>>.flattenToList() = flatMapConcat { it.asFlow() }.toList()
 }

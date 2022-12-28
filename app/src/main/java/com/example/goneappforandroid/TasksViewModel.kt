@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit
 
 class TasksViewModel(private val repository: TasksRepository) : ViewModel() {
 
-    fun insertTask(text: String, minute: Int, hour: Int, day: Long, checked: Boolean) {
+    fun insertTask(text: String, minute: Int, hour: Int, day: Int, checked: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.insertTask(Task(0, text, minute, hour, day, checked))
         }

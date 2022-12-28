@@ -54,7 +54,7 @@ fun Task(
     id: Int,
     minute: Int = 0,
     hour: Int = 0,
-    day: Long = 0,
+    day: Int = 0,
     checked: Boolean = false,
     tasksViewModel: TasksViewModel,
     confettiGo: MutableState<Boolean>,
@@ -91,7 +91,7 @@ fun Task(
     ) {
         weekTime =
             ((((cal.value.get(Calendar.YEAR) - 1901) * 365) + ((cal.value.get(Calendar.MONTH) - 1) * 30) + cal.value.get(
-                Calendar.DAY_OF_MONTH)) - day).toInt()
+                Calendar.DAY_OF_MONTH)) - day)
         if(weekTime >= 7){
             tasksViewModel.deleteTask(id = id)
         }
@@ -221,7 +221,7 @@ fun Task(
                                                         value.value.text,
                                                         minute = cal.value.get(Calendar.MINUTE),
                                                         hour = cal.value.get(Calendar.HOUR_OF_DAY),
-                                                        day = newDay.toLong(),
+                                                        day = newDay,
                                                         checked = false
                                                     )
                                                 }
@@ -303,15 +303,15 @@ fun Task(
 
 
 
-fun durationReturn(day: Long, minute: Int, hour: Int, cal: MutableState<Calendar>, minutesText: String, hoursText: String): String{
+fun durationReturn(day: Int, minute: Int, hour: Int, cal: MutableState<Calendar>, minutesText: String, hoursText: String): String{
     val durationDay =
         day - (((cal.value.get(Calendar.YEAR) - 1901) * 365) + ((cal.value.get(Calendar.MONTH) - 1) * 30) + cal.value.get(
             Calendar.DAY_OF_MONTH))
     val hours = hour + durationDay * 24
     val durationHours = hours - cal.value.get(Calendar.HOUR_OF_DAY)
     val durationMinutes = minute - cal.value.get(Calendar.MINUTE)
-    return if (durationHours == 0.toLong()) "$durationMinutes $minutesText"
-    else if (durationHours == 1.toLong() && durationMinutes < 0){
+    return if (durationHours == 0) "$durationMinutes $minutesText"
+    else if (durationHours == 1 && durationMinutes < 0){
         "${60+durationMinutes} $minutesText"
     }
     else "$durationHours $hoursText"

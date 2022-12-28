@@ -16,7 +16,7 @@ data class Task(
     @ColumnInfo(name = "hour")
     val hour: Int,
     @ColumnInfo(name = "day")
-    val day: Long,
+    val day: Int,
     @ColumnInfo(name = "checked")
     val checked: Boolean
 )

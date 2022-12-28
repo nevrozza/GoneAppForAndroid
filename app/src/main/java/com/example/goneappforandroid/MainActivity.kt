@@ -53,15 +53,20 @@ class MainActivity : ComponentActivity() {
 
 
 
-fun setRepeatAlarm(alarmManager: AlarmManager, context: Context) {
+fun setAlarm(alarmManager: AlarmManager, context: Context, task: Task) {
+    val calendar = Calendar.getInstance()
+    calendar.set(Calendar.SECOND, 0)
+    calendar.set(Calendar.MILLISECOND, 0)
+    calendar.set(Calendar.MINUTE, task.minute)
+    calendar.set(Calendar.HOUR_OF_DAY, task.hour)
+    calendar.set(Calendar.DAY_OF_YEAR, task.day)
     val intent = Intent(context, AlarmReceiver::class.java)
+    intent.putExtra("text", "text")
+    intent.putExtra("label", "Lable")
+    intent.putExtra("id", task.id)
     val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
-    alarmManager.setRepeating(
-        AlarmManager.RTC,
-        Calendar.getInstance().timeInMillis,
-        AlarmManager.INTERVAL_FIFTEEN_MINUTES,
-        pendingIntent
-    )
+    val alarmClockInfo = AlarmManager.AlarmClockInfo(calendar.timeInMillis, pendingIntent)
+    alarmManager.setAlarmClock(alarmClockInfo, pendingIntent)
 }
 
 fun cancelAlarm(alarmManager: AlarmManager, context: Context) {
