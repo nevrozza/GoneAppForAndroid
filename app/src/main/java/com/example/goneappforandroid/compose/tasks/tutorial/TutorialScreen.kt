@@ -36,7 +36,7 @@ fun TutorialScreen(
                 text = text[i],
                 id = i,
                 tasksViewModel = tasksViewModel,
-                day = 999999999999999999,
+                day = 999999999*2,
                 checked = false,
                 confettiGo = confettiGo, cal = remember { mutableStateOf(Calendar.getInstance()) })
         }

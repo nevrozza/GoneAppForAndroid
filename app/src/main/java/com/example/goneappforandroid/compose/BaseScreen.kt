@@ -3,8 +3,6 @@
 package com.example.goneappforandroid.compose
 
 import android.annotation.SuppressLint
-import android.app.AlarmManager
-import android.content.Context
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -30,8 +28,7 @@ import com.example.goneappforandroid.ui.theme.GoneAppForAndroidTheme
 @SuppressLint("RestrictedApi")
 @Composable
 fun BaseScreen(factory: TasksViewModelFactory,
-               tasksViewModel: TasksViewModel = viewModel(factory = factory),
-               context: Context, alarmManager: AlarmManager
+               tasksViewModel: TasksViewModel = viewModel(factory = factory)
 ) {
     val tasksList = tasksViewModel.tasks.collectAsState(initial = listOf())
     val topBarTitle = remember{ mutableStateOf("") }
@@ -55,7 +52,8 @@ fun BaseScreen(factory: TasksViewModelFactory,
             Box(modifier = Modifier
                 .fillMaxSize()
                 .padding(top = it.calculateTopPadding(), bottom = it.calculateBottomPadding())) {
-                NavGraph(navHostController = navController, tasksList = tasksList, tasksViewModel = tasksViewModel, topBarTitle = topBarTitle, confettiGo = confettiGo, lazyState = lazyState)
+
+                NavGraph(alarmManager = factory.alarmManager, navHostController = navController, tasksList = tasksList, tasksViewModel = tasksViewModel, topBarTitle = topBarTitle, confettiGo = confettiGo, lazyState = lazyState)
             }
 
         }

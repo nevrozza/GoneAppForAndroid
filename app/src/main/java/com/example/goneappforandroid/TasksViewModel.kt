@@ -3,6 +3,7 @@
 package com.example.goneappforandroid
 
 import android.annotation.SuppressLint
+import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -28,29 +29,36 @@ import java.util.*
 import java.util.concurrent.Executor
 import java.util.concurrent.TimeUnit
 
-class TasksViewModel(private val repository: TasksRepository) : ViewModel() {
+class TasksViewModel(private val repository: TasksRepository, private val alarmManager: AlarmManager, private val context: Context) : ViewModel() {
 
     fun insertTask(text: String, minute: Int, hour: Int, day: Int, checked: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.insertTask(Task(0, text, minute, hour, day, checked))
+            val task = Task(0, text, minute, hour, day, checked)
+            repository.insertTask(task)
+
+            setAlarm(alarmManager = alarmManager, context, task)
         }
     }
 
     fun checkTask(id: Int, checked: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.checkTask(id, checked)
+            cancelAlarm(alarmManager, context, id)
         }
     }
 
-    fun textTask(id: Int, text: String) {
+    fun textTask(id: Int, task: Task) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.textTask(id, text)
+            repository.textTask(id, task.text)
+
+            setAlarm(alarmManager, context, task)
         }
     }
 
     fun deleteTask(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteTask(id)
+            cancelAlarm(alarmManager, context, id)
         }
     }
 

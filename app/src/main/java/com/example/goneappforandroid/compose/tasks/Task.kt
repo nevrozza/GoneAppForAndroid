@@ -211,7 +211,7 @@ fun Task(
                                             onDone = {
                                                 doned = true
                                                 if (editing.value) {
-                                                    tasksViewModel.textTask(id, value.value.text)
+                                                    tasksViewModel.textTask(id, com.example.goneappforandroid.data.Task(id, value.value.text, minute, hour, day, newChecked.value) )
                                                 } else {
                                                     val newDay =
                                                         ((cal.value.get(Calendar.YEAR) - 1901) * 365) + ((cal.value.get(

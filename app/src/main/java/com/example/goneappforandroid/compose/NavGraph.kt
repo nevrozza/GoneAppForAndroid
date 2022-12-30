@@ -3,6 +3,7 @@
 package com.example.goneappforandroid.compose
 
 import android.annotation.SuppressLint
+import android.app.AlarmManager
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.compose.animation.*
@@ -25,6 +26,7 @@ import com.example.goneappforandroid.data.Task
 import com.example.goneappforandroid.R
 import com.example.goneappforandroid.compose.settings.HistoryScreen
 import com.example.goneappforandroid.compose.settings.OverViewScreen
+import com.example.goneappforandroid.setWeekAlarm
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
@@ -38,6 +40,7 @@ fun NavGraph(
     tasksViewModel: TasksViewModel,
     confettiGo: MutableState<Boolean>,
     lazyState: LazyListState,
+    alarmManager: AlarmManager,
 ){
     val local = LocalContext.current
     val cal = remember { mutableStateOf(Calendar.getInstance()) }
@@ -58,6 +61,7 @@ fun NavGraph(
                 topBarTitle.value = stringResource(id = R.string.app_name)
                 TutorialScreen(tasksViewModel = tasksViewModel, confettiGo = confettiGo, navHostController = navHostController, local = local)
             } else {
+//                setWeekAlarm(alarmManager, local, tasksList.value)
                 topBarTitle.value = stringResource(id = R.string.title_today)
                 TasksScreen(tasksList = tasksList, tasksViewModel = tasksViewModel, confettiGo = confettiGo, lazyState = lazyState, cal = cal)
             }
